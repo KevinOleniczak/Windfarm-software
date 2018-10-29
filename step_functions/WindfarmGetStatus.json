@@ -1,0 +1,60 @@
+{
+  "Comment": "Get all windfarm stats needed in parallel.",
+  "StartAt": "Parallel",
+  "States": {
+    "Parallel": {
+      "Type": "Parallel",
+      "Next": "Final State",
+      "Branches": [
+        {
+          "StartAt": "GetWeather",
+          "States": {
+             "GetWeather": {
+              "Type": "Task",
+              "Resource":
+                "arn:aws:lambda:*:*:function:WindfarmGetWeather",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "GetTurbineCounts",
+          "States": {
+            "GetTurbineCounts": {
+              "Type": "Task",
+              "Resource":
+                "arn:aws:lambda:*:*:function:WindfarmGetTurbineCount",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "GetWindfarmGetShadowState",
+          "States": {
+            "GetWindfarmGetShadowState": {
+              "Type": "Task",
+              "Resource":
+                "arn:aws:lambda:*:*:function:WindfarmGetShadowState",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "GetLatestWeather",
+          "States": {
+             "GetLatestWeather": {
+              "Type": "Task",
+              "Resource":
+                "arn:aws:lambda:*:*:function:WindfarmGetLatestWeather",
+              "End": true
+            }
+          }
+        }
+      ]
+    },
+    "Final State": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}

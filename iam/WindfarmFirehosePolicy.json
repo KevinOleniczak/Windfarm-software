@@ -1,0 +1,60 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ],
+        "Resource": "arn:aws:logs:*:*:*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "lambda:InvokeFunction",
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "s3:AbortMultipartUpload",
+            "s3:GetBucketLocation",
+            "s3:GetObject",
+            "s3:ListBucket",
+            "s3:ListBucketMultipartUploads",
+            "s3:PutObject"
+        ],
+        "Resource": [
+            "arn:aws:s3:::windfarm-turbine-data-*",
+            "arn:aws:s3:::windfarm-turbine-data-*/*",
+            "arn:aws:s3:::%FIREHOSE_BUCKET_NAME%",
+            "arn:aws:s3:::%FIREHOSE_BUCKET_NAME%/*"
+        ]
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "lambda:InvokeFunction",
+            "lambda:GetFunctionConfiguration"
+        ],
+        "Resource": "arn:aws:lambda:*:*:function:WindfarmTurbineJSON2CSV:$LATEST"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "logs:PutLogEvents"
+        ],
+        "Resource": "arn:aws:logs:*:*:log-group:/aws/kinesisfirehose/WindfarmTurbineDataStream:log-stream:*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "kinesis:DescribeStream",
+            "kinesis:GetShardIterator",
+            "kinesis:GetRecords"
+        ],
+        "Resource": "arn:aws:kinesis:*:*:stream/WindfarmTurbineDataStream"
+      }
+    ]
+}

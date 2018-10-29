@@ -1,0 +1,49 @@
+{
+  "Comment": "Get all windfarm turbine stats needed in parallel.",
+  "StartAt": "Parallel",
+  "States": {
+    "Parallel": {
+      "Type": "Parallel",
+      "Next": "Final State",
+      "Branches": [
+        {
+          "StartAt": "GetWindfarmGetTurbineTrend",
+          "States": {
+             "GetWindfarmGetTurbineTrend": {
+              "Type": "Task",
+              "Resource":
+                "arn:aws:lambda:*:*:function:WindfarmGetTurbineTrend",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "GetWindfarmGetTurbineLiveStats",
+          "States": {
+            "GetWindfarmGetTurbineLiveStats": {
+              "Type": "Task",
+              "Resource":
+                "arn:aws:lambda:*:*:function:WindfarmGetTurbineLiveStats",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "GetWindfarmGetTurbineShadowState",
+          "States": {
+             "GetWindfarmGetTurbineShadowState": {
+              "Type": "Task",
+              "Resource":
+                "arn:aws:lambda:*:*:function:WindfarmGetTurbineShadowState",
+              "End": true
+            }
+          }
+        }
+      ]
+    },
+    "Final State": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}

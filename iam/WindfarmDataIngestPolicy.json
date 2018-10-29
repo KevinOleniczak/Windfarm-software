@@ -1,0 +1,43 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": "kinesis:PutRecord",
+        "Resource": "arn:aws:kinesis:*:*:stream/WindfarmDataStream"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "dynamodb:PutItem",
+        "Resource": "arn:aws:dynamodb:*:*:table/windturbine-data-latest"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "es:ESHttpPut",
+        "Resource": "arn:aws:es:*:*:domain/WindfarmES/*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "dynamodb:PutItem",
+        "Resource": "arn:aws:dynamodb:*:*:table/windfarm-weather-latest"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "firehose:PutRecord",
+        "Resource": "arn:aws:firehose:*:*:deliverystream/WindfarmTurbineDataStream"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "iot:Publish",
+        "Resource": "arn:aws:iot:*:*:topic/$aws/things/*/shadow/update"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "iotanalytics:BatchPutMessage",
+        "Resource": [
+            "arn:aws:iotanalytics:*:*:channel/windturbine_data",
+            "arn:aws:iotanalytics:*:*:channel/windfarm_weather"
+        ]
+      }
+    ]
+}

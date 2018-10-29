@@ -1,0 +1,71 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ],
+        "Resource": "arn:aws:logs:*:*:*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "lambda:InvokeFunction",
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "iot:Connect",
+            "iot:Publish",
+            "iot:Subscribe",
+            "iot:Receive",
+            "iot:GetThingShadow",
+            "iot:UpdateThingShadow",
+            "iot:DeleteThingShadow"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "iot:GetPolicy",
+            "iot:GetTopicRule",
+            "iot:GetOTAUpdateJob",
+            "iot:DescribeThing",
+            "iot:GetRegistrationCode",
+            "iot:DescribeCertificate",
+            "iot:GetLoggingOptions",
+            "iot:DescribeEndpoint",
+            "iot:GetJobDocument",
+            "iot:GetThingShadow",
+            "iot:DescribeStream",
+            "iot:DescribeCACertificate",
+            "iot:DescribeJob",
+            "iot:ListThings",
+            "iot:ListThingTypes",
+            "iot:ListThingPrincipals",
+            "iot:DescribeThingType",
+            "iot:DescribeJobExecution",
+            "iot:GetPolicyVersion"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "dynamodb:Scan",
+            "dynamodb:Query",
+            "dynamodb:ListTables"
+        ],
+        "Resource": [
+            "arn:aws:dynamodb:*:*:table/windturbine-data*",
+            "arn:aws:dynamodb:*:*:table/windfarm-weather",
+            "arn:aws:dynamodb:*:*:table/windfarm-weather-latest",
+            "arn:aws:dynamodb:*:*:table/windturbine-data"
+        ]
+      }
+    ]
+}

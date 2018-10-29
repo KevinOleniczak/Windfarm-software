@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  IoTtopicRuleTurbineData:
+    Type: 'AWS::IoT::TopicRule'
+    Properties:
+      RuleName:
+        Ref: "WindturbineData"
+      TopicRulePayload:
+        RuleDisabled: "false"
+        Sql: >-
+          Select temp FROM 'windturbine-data'
+        Actions: Firehose
+          DeliveryStreamName: String
+          RoleArn: String
+          Separator: String
+
+           DynamoDBv2Action
+           PutItem: PutItemInput
+           RoleArn: String
+
+
+
+  DDBLatestTurbineData:
+    Type: 'AWS::DynamoDB::Table'
+    Properties: {}
+    DependsOn:
+      - IoTtopicRuleTurbineData
+
+  FirehoseTurbineData:
+    Type: 'AWS::KinesisFirehose::DeliveryStream'
+    Properties: {}
+    DependsOn:
+      - IoTtopicRuleTurbineData
