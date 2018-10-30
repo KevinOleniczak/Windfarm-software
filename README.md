@@ -13,6 +13,16 @@ This demo windfarm contains several model elements that help you experience the 
 ### What does it do:
 See how industrial edge connectivity is accomplished with AWS services. An IoT device read sensor values from a wind turbine continually and publish it to a local IoT Gateway using AWS Greengrass. The gateway receives the data and performs a local inference to evaluate turbine safety based on rotation speed and vibrations. Data is selectively shared with the AWS Cloud where it can be used to build and train machine learning models, stored for analytical purposes and visualized over time on a dashboard.
 
+### What you need:
+* Windturbine model with electronics as described here
+* Weather station with electronics as described here
+* Windturbine Raspberry PI Shield
+* Windturbine Device >> Raspberry PI Zero W with at least 16 GB micro SD Card (with 40 pin male header for GPIO)
+* Greengrass Gateway >> Raspberry PI 3b with at least 16 GB micro SD Card (with 40 pin male header for GPIO)
+* WiFi Router to connect OR wired ethernet switch and router (if wired, then also get a usb to wired ethernet adapter for the Raspberry PI Zero W)
+* Internet connection
+* AWS Account with permissions to configure services as noted below
+
 ### How does it work:
 The Turbine connects using MQTT to a Greengrass gateway that relays data to the AWS IoT Core. The IoT Core forwards that data to several services for caching of latest metrics and historical trends.
 
@@ -27,7 +37,7 @@ In a region with all of the referenced services create:
 * IAM Policy: WindfarmDataIngestPolicy
 * IAM Role: WindfarmDataIngestRole (trusted entities iot.amazonaws.com)
 * IAM Policy: WindfarmLambdaPolicy
-* IAM Role: WindfarmLambdaRole (trusted entities lambda.amazonaws.com)
+* IAM Role: WindfarmLambdaRole (trusted entities lambda.amazonaws.com AND iotanalytics.amazonaws.com)
 * IAM Policy: WindfarmFirehosePolicy
 * IAM Role: WindfarmFirehoseRole (trusted entities kinesis.amazonaws.com)
 * IAM Policy: WindfarmGreengrassPolicy
@@ -72,8 +82,9 @@ In a region with all of the referenced services create:
 IoT Thing: WindTurbine1
 
 ### Greengrass Setup
-Lambda Function: WindfarmWeatherReporter
-Lambda Function: WindTurbineSafetyCheck
+Lambda Function: WindfarmWeatherReporter (zip archive with Greengrass SDK)
+Lambda Function: WindTurbineSafetyCheck (zip archive with Greengrass SDK)
+
 
 Run this to get the GG Group CA cert for use with devices that connect:
 > aws greengrass get-group-certificate-authority --certificate-authority-id dad15d1xxxxxxxxxxxxxxxxxxxfd5aaba1f --group-id 1a161bbxxxxxxxxxxxxxxxx97f130 | jq -r ".PemEncodedCertificate" > myGgcRootCA.pem
