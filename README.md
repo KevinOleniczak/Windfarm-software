@@ -30,6 +30,8 @@ In a region with all of the referenced services create:
 * IAM Role: WindfarmLambdaRole (trusted entities lambda.amazonaws.com)
 * IAM Policy: WindfarmFirehosePolicy
 * IAM Role: WindfarmFirehoseRole (trusted entities kinesis.amazonaws.com)
+* IAM Policy: WindfarmGreengrassPolicy
+* IAM Role: WindfarmGreengrassRole (trusted entities greengrass.amazonaws.com)
 * Lambda Function: WindfarmTurbineJSON2CSV
 * Lambda Function: WindfarmGetTurbineLiveStats
 * Lambda Function: WindfarmGetTurbineCount
@@ -46,7 +48,7 @@ In a region with all of the referenced services create:
 * DynamoDB Table: windfarm-weather-latest
 * S3 Bucket: windfarm-turbine-data-yourname
 * Kinesis Firehose: WindfarmTurbineDataStream
-* ElasticSearch Cluster: windfarm-es
+* ElasticSearch Cluster: windfarm-es (do not create in VPC as IoT Core can't access it there)
 * IoT Analytics Channel: windturbine_data_channel
 * IoT Analytics Channel: windfarm_weather_channel
 * IoT Rule: WindfarmTurbineDataIoTRule (select * from 'windturbine-data' >> 4 actions)
@@ -54,13 +56,17 @@ In a region with all of the referenced services create:
 
 
 * IoT Analytics Pipeline: windturbine_data_pipeline
+* IoT Analytics Data Store: windturbine_data_datastore
 * IoT Analytics Pipeline: windfarm_weather_pipeline
-* IoT Analytics Data Store: ?
+* IoT Analytics Data Store: windfarm_weather_datastore
+* IoT Analytics Data Set: all_windturbine_data (select *, update every 15 minutes)
+* Glue: Build crawler for S3 bucket data and run an ad hoc crawl
 * QuickSight: connector to IOTA, dashboard
-* Kibana:
+* ElasticSearch: Add default index (turbines*)
+* Kibana: Add visualizations and dashboard
 * Alexa for Business: private skill
 * Cognito Identity Pool:
-* Sumerian:
+* Sumerian: Import scene bundle
 
 ### IoT Things
 IoT Thing: WindTurbine1
@@ -68,6 +74,9 @@ IoT Thing: WindTurbine1
 ### Greengrass Setup
 Lambda Function: WindfarmWeatherReporter
 Lambda Function: WindTurbineSafetyCheck
+
+Run this to get the GG Group CA cert for use with devices that connect:
+> aws greengrass get-group-certificate-authority --certificate-authority-id dad15d1xxxxxxxxxxxxxxxxxxxfd5aaba1f --group-id 1a161bbxxxxxxxxxxxxxxxx97f130 | jq -r ".PemEncodedCertificate" > myGgcRootCA.pem
 
 ### TODO:
 Fix WindfarmSetTurbineBrake lambda to accept thingname

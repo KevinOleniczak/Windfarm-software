@@ -14,7 +14,7 @@
       {
         "Effect": "Allow",
         "Action": "es:ESHttpPut",
-        "Resource": "arn:aws:es:*:*:domain/WindfarmES/*"
+        "Resource": "arn:aws:es:*:*:domain/windfarm-es/*"
       },
       {
         "Effect": "Allow",
@@ -35,8 +35,8 @@
         "Effect": "Allow",
         "Action": "iotanalytics:BatchPutMessage",
         "Resource": [
-            "arn:aws:iotanalytics:*:*:channel/windturbine_data",
-            "arn:aws:iotanalytics:*:*:channel/windfarm_weather"
+            "arn:aws:iotanalytics:*:*:channel/windturbine_data_channel",
+            "arn:aws:iotanalytics:*:*:channel/windfarm_weather_channel"
         ]
       }
     ]
