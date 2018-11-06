@@ -15,8 +15,8 @@ core_shadow_payload = {
 	                }
 	            }
         }
-client.update_thing_shadow(thingName='Windfarms_Core', payload=json.dumps(core_shadow_payload).encode() )
-        
+client.update_thing_shadow(thingName='WindfarmGroup_Core', payload=json.dumps(core_shadow_payload).encode() )
+
 def WindTurbineSafetyCheck(event, context):
     logger.info("Windfarm Turbine is ONLINE")
     logger.info(json.dumps(event))
@@ -30,12 +30,12 @@ def WindTurbineSafetyCheck(event, context):
     if not ('turbine_speed' in event.keys()):
         logger.info('No action found')
         return
-    
-    coreShadow = client.get_thing_shadow(thingName='Windfarms_Core')
+
+    coreShadow = client.get_thing_shadow(thingName='WindfarmGroup_Core')
     print(coreShadow)
     payloadDict = json.loads(coreShadow['payload'])
     rpm_threshold = payloadDict["state"]["reported"]["brake_threshold"]
-            
+
     rpm = event['turbine_speed']
     myClientID = "WindTurbine1"
     if rpm > rpm_threshold:
@@ -48,7 +48,7 @@ def WindTurbineSafetyCheck(event, context):
 	            }
         }
         client.update_thing_shadow(thingName=myClientID, payload=json.dumps(shadow_payload).encode() )
-        
+
     # Let's publish a response back to AWS IoT
     # Only send a message if the button state is 1
     #if (event['key'] == 'ENTER' and event['state'] > 0):

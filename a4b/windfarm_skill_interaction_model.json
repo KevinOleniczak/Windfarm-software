@@ -1,0 +1,132 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "windfarm",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "Status",
+                    "slots": [],
+                    "samples": [
+                        "What is the windfarm status",
+                        "Status",
+                        "windfarm status",
+                        "Windfarm weather"
+                    ]
+                },
+                {
+                    "name": "Turbines",
+                    "slots": [
+                        {
+                            "name": "turbineNumber",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "{turbineNumber}"
+                            ]
+                        },
+                        {
+                            "name": "action",
+                            "type": "turbine_actions"
+                        }
+                    ],
+                    "samples": [
+                        "turbines",
+                        "what is the status of turbine {turbineNumber}",
+                        "{action} turbine {turbineNumber}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "turbine_actions",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "status",
+                                "synonyms": [
+                                    "turbine status"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "apply brake",
+                                "synonyms": [
+                                    "stop turbine"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "reset brake",
+                                "synonyms": [
+                                    "brake off"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "Turbines",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "turbineNumber",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-Turbines.IntentSlot-turbineNumber"
+                            }
+                        },
+                        {
+                            "name": "action",
+                            "type": "turbine_actions",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-Turbines.IntentSlot-action"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Intent-Turbines.IntentSlot-turbineNumber",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which turbine number"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-Turbines.IntentSlot-action",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which of these action do you want to take. Status, apply brake or reset brake."
+                    }
+                ]
+            }
+        ]
+    }
+}

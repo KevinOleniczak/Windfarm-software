@@ -1,0 +1,46 @@
+{
+  "skillManifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "A demo of a model windfarm turbine that is connected to AWS IoT via Greengrass to show how interactive voice control can obtain status and perform commands.",
+          "examplePhrases": [
+            "Alexa, What's the windfarm status",
+            "Alexa, Activate a turbine brake",
+            "Alexa, Reset turbone brake 1"
+          ],
+          "keywords": [
+            "windfarm"
+          ],
+          "name": "Windfarm",
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/61e4/3d7e5902cb604bd6bf3365e1c66a6dd5/APP_ICON?versionId=sDhJ5NKoZELafwYU_THhMlEkTMUnDuFK&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1541555974&Signature=SpGKWZ1iIZk7j2gjhPqH%2Bm4SIG0%3D",
+          "description": "This skill is part of the larger windfarm demo that demonstrates a number of AWS capabilities including voice control with a private Alexa for Business skill, interactive dashboards using Kibana and QuickSight and VR using Sumerian.",
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/a292/8f922eaaa8c1438d84644a12f4916a12/APP_ICON_LARGE?versionId=gGJg8c4.Ld1pEeWmZ68nt2pq.yZIbw7t&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1541555974&Signature=YPrPu90U6wKYEjM%2FVskQOgyeLis%3D"
+        }
+      },
+      "isAvailableWorldwide": false,
+      "testingInstructions": "Alexa for Business private skill that requires windfarm IoT equipment",
+      "category": "BUSINESS_AND_FINANCE",
+      "distributionMode": "PRIVATE",
+      "distributionCountries": [
+        "US"
+      ]
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:58xxxxxxxx19:function:WindFarmAlexaSkillDemo"
+        }
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "isChildDirected": false,
+      "usesPersonalInfo": false
+    }
+  }
+}
