@@ -107,13 +107,13 @@ Run this to get the GG Group CA cert for use with devices that connect:
 * A4B Room: A4B_Room1
 * A4B Room Profile: A4B_Room_Profile
 * A4B Private skill: Windfarm (linked to the devices)
-* Link the new private skill to the A4B account to make available for users
+* Link the new private skill to the A4B account to make available for users: ask api add-private-distribution-account --skill-id amzn1.ask.skill.86aaxxxxxxxxx1e41 --stage live --account-id arn:aws:iam::1xxxxxxxxxx4:root
 * Inviate users and/or add designated Alexa devices like an Echo
 
 ### Sumerian
 * Gather turbine mast and fin OBJ files from hardware models repository
 * Import into an asset library and then add to your scene in Sumerian
-* 
+*
 
 ### TODO:
 Fix WindfarmSetTurbineBrake lambda to accept thingname
