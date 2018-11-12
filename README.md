@@ -8,7 +8,7 @@ The demo hardware for these models are in a seperate repo [here](https://github.
 ### What's included:
 This demo windfarm contains several model elements that help you experience the interactions between a turbine and a monitoring station on the edge. Connectivity with the AWS Cloud is not required to observe a safety assessment that is performed with real data that published continually from the turbine.
 
-<img src="windfarm_demo.jpg" width="400" /> 
+<img src="windfarm_demo.jpg" width="400" />
 
 ### What does it do:
 See how industrial edge connectivity is accomplished with AWS services. An IoT device read sensor values from a wind turbine continually and publish it to a local IoT Gateway using AWS Greengrass. The gateway receives the data and performs a local inference to evaluate turbine safety based on rotation speed and vibrations. Data is selectively shared with the AWS Cloud where it can be used to build and train machine learning models, stored for analytical purposes and visualized over time on a dashboard.
@@ -22,6 +22,8 @@ See how industrial edge connectivity is accomplished with AWS services. An IoT d
 * WiFi Router to connect OR wired ethernet switch and router (if wired, then also get a usb to wired ethernet adapter for the Raspberry PI Zero W)
 * Internet connection
 * An electric desk fan with variable speeds
+* An Alexa device (Echo or phone app would work)
+* If using a wired ethernet network include a switch, cables and ethenet adapter for the RPI Zero W
 * AWS Account with permissions to configure services as noted below
 
 ### How does it work:
@@ -170,6 +172,16 @@ Run this to get the GG Group CA cert for use with devices that connect:
 * Import into an asset library and then add to your scene in Sumerian (if not using the bundle)
 * Cognito Identity Pool: WindfarmSumerianIdentityPool (for Sumerian Lambda/IOT access)
 * Sumerian Scene: Import scene bundle (start a new scene and drag-n-drop the zip file bundle onto it)
+
+### Adding additional turbines to an existing Greengrass group
+* Setup new IoT thing in AWS IoT Core and install certificates along with the Greengrass group CA
+* Keep thing name in a numbered series (i.e. WindTurbine1, WindTurbine2, etc)
+* Ensure the new IoT thing is added to the thing type for wind turbines
+* Update the RPI device program (python) to reference the correct thing name
+
+### Adding additional Windfarms to an AWS account (for the same region)
+* Add a new Greengrass Group and core device. Ensure it is named in series with others.
+* Ensure turbine devices continue with the numeric numbering sequence (Alexa skill asks for turbine number)
 
 ### TODO:
 Fix WindfarmSetTurbineBrake lambda to accept thingname
