@@ -30,10 +30,12 @@ See how industrial edge connectivity is accomplished with AWS services. An IoT d
 The Turbine connects using MQTT to a Greengrass gateway that relays data to the AWS IoT Core. The IoT Core forwards that data to several services for caching of latest metrics and historical trends.
 
 High Level architecture
-![](high_level_arch.png)
+
+<img src="high_level_arch.png" width="800" />
 
 Detailed architecture
-![](detailed_arch.png)
+
+tbd
 
 ### AWS Services Setup
 In a region with all of the referenced services create:
