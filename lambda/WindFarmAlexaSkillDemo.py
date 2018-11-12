@@ -91,13 +91,13 @@ def get_windfarm_status(intent, session):
 
     inputMsg = {
       "duration_minutes": 5000,
-      "windfarmId": "Windfarms_Core"
+      "windfarmId": "WindfarmGroup_Core"
     }
 
     stmName = str(uuid.uuid4())
     client = boto3.client('stepfunctions', region_name='us-west-2')
     response = client.start_execution(
-        stateMachineArn = 'arn:aws:states:us-west-2:588794348719:stateMachine:WindfarmGetStatus',
+        stateMachineArn = 'arn:aws:states:us-west-2:178550668674:stateMachine:WindfarmGetStatus',
         name = stmName,
         input = json.dumps(inputMsg)
     )
@@ -159,20 +159,21 @@ def get_turbine_status(intent, session, dialog_state):
 
     elif dialog_state == "COMPLETED":
         if 'turbineNumber' in intent['slots']:
-            #print ("slot info >> " + json.dumps(intent['slots']))
+            print ("slot info >> " + json.dumps(intent['slots']))
             myturbineNumber = intent['slots']['turbineNumber']['value']
 
             inputMsg = {
                 "deviceId": "202481602013867",
+                "thingName": "WindTurbine" + str(myturbineNumber),
                 "turbine_number": myturbineNumber,
-                "duration_minutes": 1
+                "duration_minutes": 5
             }
             print(inputMsg)
 
             stmName = str(uuid.uuid4())
             client = boto3.client('stepfunctions', region_name='us-west-2')
             response = client.start_execution(
-                stateMachineArn = 'arn:aws:states:us-west-2:588794348719:stateMachine:WindfarmGetTurbineStatus',
+                stateMachineArn = 'arn:aws:states:us-west-2:178550668674:stateMachine:WindfarmGetTurbineStatus',
                 name = stmName,
                 input = json.dumps(inputMsg)
             )
@@ -189,7 +190,7 @@ def get_turbine_status(intent, session, dialog_state):
             if qryState == "SUCCEEDED":
                 responseDesc = json.loads(responseDesc['output'])
 
-                avg_turbine_speed = responseDesc[0]['turbine_speed_trend']
+                avg_turbine_speed = responseDesc[0]['avg_turbine_speed']
                 if avg_turbine_speed == 'unknown':
                     avg_turbine_speed = 0
 
@@ -250,7 +251,7 @@ def set_turbine_reset(intent, session, dialog_state):
             invoke_response = lambda_client.invoke(FunctionName="WindfarmResetTurbine",
                                                InvocationType='RequestResponse'
                                                )
-            #arn:aws:lambda:us-west-2:588794348719:function:WindfarmResetTurbine
+            #arn:aws:lambda:us-west-2:178550668674:function:WindfarmResetTurbine
             #should_end_session = True
             speech_output = "The brake for turbine " + \
                             str(myturbineNumber) + \
@@ -291,7 +292,7 @@ def set_turbine_brake(intent, session, dialog_state):
             invoke_response = lambda_client.invoke(FunctionName="WindfarmSetTurbineBrake",
                                                InvocationType='RequestResponse'
                                                )
-            #arn:aws:lambda:us-west-2:588794348719:function:WindfarmSetTurbineBrake
+            #arn:aws:lambda:us-west-2:178550668674:function:WindfarmSetTurbineBrake
             should_end_session = True
             speech_output = "The brake for turbine " + \
                             str(myturbineNumber) + \
@@ -409,7 +410,7 @@ def lambda_handler(event, context):
     function.
     """
     if (event['session']['application']['applicationId'] !=
-      "amzn1.ask.skill.7a1a609b-2a37-44ad-b768-d8c059d0f3c5"):
+      "amzn1.ask.skill.86aaca44-aae9-4dc0-a026-20cb27751e41"):
         raise ValueError("Invalid Application ID")
     print(json.dumps(event))
 

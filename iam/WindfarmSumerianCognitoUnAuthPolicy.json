@@ -1,0 +1,93 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobileanalytics:PutEvents",
+                "cognito-sync:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction",
+                "lambda:InvokeAsync",
+                "lambda:Invoke",
+                "lambda:*"
+            ],
+            "Resource": "arn:aws:lambda:us-west-2:5xxxxxxxx19:function:WindfarmGetTurbineLiveStats"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "polly:DescribeVoices",
+                "polly:GetLexicon",
+                "polly:GetSpeechSynthesisTask",
+                "polly:ListLexicons",
+                "polly:ListSpeechSynthesisTasks",
+                "polly:SynthesizeSpeech"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:Connect",
+                "iot:Publish",
+                "iot:Subscribe",
+                "iot:Receive",
+                "iot:GetThingShadow",
+                "iot:UpdateThingShadow"        
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:ListOTAUpdateJobs",
+                "iot:ListOutgoingCertificates",
+                "iot:GetOTAUpdateJob",
+                "iot:*",
+                "iot:ListJobExecutionsForJob",
+                "iot:GetRegistrationCode",
+                "iot:DescribeCertificate",
+                "iot:ListCACertificates",
+                "iot:ListJobExecutionsForThing",
+                "iot:DescribeEndpoint",
+                "iot:GetJobDocument",
+                "iot:ListPrincipalPolicies",
+                "iot:ListPolicyVersions",
+                "iot:GetThingShadow",
+                "iot:DescribeStream",
+                "iot:GetPolicyVersion",
+                "iot:ListTopicRules",
+                "iot:ListCertificatesByCA",
+                "iot:GetPolicy",
+                "iot:GetTopicRule",
+                "iot:DescribeThing",
+                "iot:ListPolicyPrincipals",
+                "iot:GetLoggingOptions",
+                "iot:UpdateThingShadow",
+                "iot:ListThingTypes",
+                "iot:ListPrincipalThings",
+                "iot:ListStreams",
+                "iot:ListPolicies",
+                "iot:ListThingPrincipals",
+                "iot:ListJobs",
+                "iot:DescribeCACertificate",
+                "iot:DescribeJob",
+                "iot:ListThings",
+                "iot:DescribeThingType",
+                "iot:DescribeJobExecution",
+                "iot:ListCertificates"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

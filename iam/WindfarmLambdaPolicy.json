@@ -66,6 +66,18 @@
             "arn:aws:dynamodb:*:*:table/windfarm-weather-latest",
             "arn:aws:dynamodb:*:*:table/windturbine-data"
         ]
+      },
+      {
+            "Effect": "Allow",
+            "Action": [
+                "iotanalytics:GetDatasetContent"
+            ],
+            "Resource": "arn:aws:iotanalytics:us-west-2:178xxxxxx674:dataset/windfarm_*"
+      },
+      {
+            "Effect": "Allow",
+            "Action": "athena:StartQueryExecution",
+            "Resource": "*"
       }
     ]
 }
