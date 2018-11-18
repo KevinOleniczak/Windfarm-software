@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import base64
 import json
+import dateutil.parser
 
 print('Loading function')
 
@@ -11,10 +12,11 @@ def lambda_handler(event, context):
     failed_record_cnt = 0
 
     for record in event['records']:
-        print(record['recordId'])
+        #print(record['recordId'])
         payload = base64.b64decode(record['data'])
         aDict = json.loads(payload)
-        aLine = str(aDict['deviceID']) + ',' + aDict['timestamp'] + ',' + aDict['location'] + ',' + str(aDict['lat']) + ',' + str(aDict['lng']) + ',' + str(aDict['turbine_temp']) + ',' + str(aDict['turbine_speed']) + ',' + str(aDict['turbine_rev_cnt']) + ',' + str(aDict['turbine_voltage']) + ',' + str(aDict['turbine_vibe_x']) + ',' + str(aDict['turbine_vibe_y']) + ',' + str(aDict['turbine_vibe_z']) + '\n'
+        myTimestamp = dateutil.parser.parse(aDict['timestamp'])
+        aLine = str(aDict['deviceID']) + ',' + str(myTimestamp) + ',' + aDict['location'] + ',' + str(aDict['lat']) + ',' + str(aDict['lng']) + ',' + str(aDict['turbine_temp']) + ',' + str(aDict['turbine_speed']) + ',' + str(aDict['turbine_rev_cnt']) + ',' + str(aDict['turbine_voltage']) + ',' + str(aDict['turbine_vibe_x']) + ',' + str(aDict['turbine_vibe_y']) + ',' + str(aDict['turbine_vibe_z']) + ',' + str(aDict['turbine_vibe_peak']) + '\n'
         output_record = {
             'recordId': record['recordId'],
             'result': 'Ok',

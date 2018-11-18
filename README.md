@@ -1,7 +1,7 @@
 # Windfarm Demo Software
 
 ### Purpose:
-This project is intended to demonstrate several features of AWS IoT and related services for practical use cases. It leverages a 3D printed wind turbine and weather station that's documented seperately.
+This project is intended to demonstrate several features of AWS IoT and related services for a practical use cases. It leverages a 3D printed wind turbine and weather station that's documented seperately.
 
 The demo hardware for these models are in a seperate repo [here](https://github.com/KevinOleniczak/Windfarm-hardware).
 
@@ -62,7 +62,10 @@ In a region with all of the referenced services create:
 * DynamoDB Table: windturbine-data-latest (used as a latest cache)
 * DynamoDB Table: windfarm-weather-latest (used as a latest cache)
 * S3 Bucket: windfarm-turbine-data-yourname
-* Kinesis Firehose: WindfarmTurbineDataStream
+* S3 Bucket: windfarm-turbine-data-failed-yourname (Kinesis Stream to ElasticSearch)
+* Kinesis Firehose: WindfarmTurbineDataStream (IoT to S3)
+* Kinesis Firehose: WindfarmTurbineDataStream2ES (Kinesis Stream to ElastiSearch)
+* Kinesis Firehose: WindfarmTurbineDataStream2S3 (Kinesis Stream to S3)
 
 ### IoT Core
 * IoT Rule: WindfarmTurbineDataIoTRule (select * from 'windturbine-data')
@@ -157,6 +160,11 @@ Run this to get the GG Group CA cert for use with devices that connect:
 
 ### Greengrass ML Inference Setup
 * On the RPI, go do the install of MXNet as described here: https://docs.aws.amazon.com/greengrass/latest/developerguide/ml-console.html#ml-console-create-lambda
+
+### Kinesis Streams
+* Kinesis Stream: WindfarmTurbineStream (2 shards)
+* Lambda Function: WindfarmTurbineStreamProcessor (event is Kinesis stream)
+
 
 ### Alexa for Business (A4B) in us-east-1
 * IAM Policy: WindfarmAlexaSkillPolicy

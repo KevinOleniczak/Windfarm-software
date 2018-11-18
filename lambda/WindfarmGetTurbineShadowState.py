@@ -11,7 +11,7 @@ def deviceId2thingName(myDeviceId):
         #maxResults=1,
         attributeName='deviceId',
         attributeValue=myDeviceId
-        #thingTypeName='WindTurbine'
+        #thingTypeName='WindfarmTurbine'
         )
     return response['things'][0]['thingName']
 

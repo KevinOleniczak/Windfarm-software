@@ -2,38 +2,38 @@ import boto3
 import json
 import datetime
 import time
-from boto3.dynamodb.conditions import Key, Attr
+import csv
+import urllib2
 
-client = boto3.resource('dynamodb', region_name='us-west-2')
-table = client.Table('windfarm-weather')
+client = boto3.client('iotanalytics', region_name='us-west-2')
 
 def lambda_handler(event, context):
-    #2017-12-18 04:32:00
-    aDurationMin = event["duration_minutes"]
     aWindfarmId = event["windfarmId"]
-    aTime = (datetime.datetime.utcnow() - datetime.timedelta(minutes=aDurationMin)).strftime("%Y-%m-%d %H:%M") #:%S
 
-    response = table.scan(
-        FilterExpression=Attr('timestamp').gt(aTime) & Attr('windfarmId').eq(aWindfarmId)
-        )
+    response = client.get_dataset_content(
+        datasetName='windfarm_weather_recent_dataset',
+        versionId='$LATEST_SUCCEEDED'
+    )
 
-    aTot = 0
-    aCnt = 0
-    for aItem in response['Items']:
-        if 'wind_speed' in aItem['observation']:
-            aCnt += 1
-            aTot += float(aItem['observation']['wind_speed'])
+    # csv format is: windfarmid,avg_wind_speed,max_wind_speed
+    if response['status']['state'] == 'SUCCEEDED':
+        dataset_url = response['entries'][0]['dataURI']
+        csv_response = urllib2.urlopen(dataset_url)
+        csv_content = list(csv.reader(csv_response))
 
-    #build response message
-    if aCnt > 0:
-        msg = {
-            "timestamp": str(aTime),
-            "avg_wind_speed": str("%.1f" % round((aTot / aCnt),1))
-            }
+        for row in csv_content:
+            if row[0] == aWindfarmId:
+                msg = {
+                    "timestamp": row[1],
+                    "avg_wind_speed": str("%.1f" % round(float(row[2]),1)),
+                    "peak_wind_speed": str("%.1f" % round(float(row[3]),1))
+                    }
     else:
+        print("no data set ready for recent weather data set")
         msg = {
-            "timestamp": str(aTime),
-            "avg_wind_speed": "unknown"
+            "timestamp": str(datetime.datetime.now()),
+            "avg_wind_speed": "unknown",
+            "peak_wind_speed": "unknown"
             }
 
     return msg
