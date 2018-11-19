@@ -35,7 +35,7 @@ High Level architecture
 
 Detailed architecture
 
-tbd
+<img src="detailed_arch.png" width="800" />
 
 ### AWS Services Setup
 In a region with all of the referenced services create:
@@ -63,7 +63,7 @@ In a region with all of the referenced services create:
 * DynamoDB Table: windfarm-weather-latest (used as a latest cache)
 * S3 Bucket: windfarm-turbine-data-yourname
 * S3 Bucket: windfarm-turbine-data-failed-yourname (Kinesis Stream to ElasticSearch)
-* Kinesis Firehose: WindfarmTurbineDataStream (IoT to S3)
+* Kinesis Firehose: WindfarmTurbineDataStreamIoT (IoT to S3)
 * Kinesis Firehose: WindfarmTurbineDataStream2ES (Kinesis Stream to ElastiSearch)
 * Kinesis Firehose: WindfarmTurbineDataStream2S3 (Kinesis Stream to S3)
 
@@ -156,6 +156,7 @@ Run this to get the GG Group CA cert for use with devices that connect:
 * IAM Policy: WindfarmNotebookPolicy
 * IAM Role: WindfarmNotebookRole (trusted entities sagemaker.amazonaws.com)
 * SageMaker Notebook Server: WindfarmNotebookInstance (if interested in training ml models for yourself or running analytics in a notebook)
+* S3 Bucket: windfarm-turbine-data-ml-train
 * SageMaker ML Model Artifact for GG-ML in S3 bucket: tbd
 
 ### Greengrass ML Inference Setup
