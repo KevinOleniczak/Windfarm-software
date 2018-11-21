@@ -37,6 +37,10 @@ Detailed architecture
 
 <img src="detailed_arch.png" width="800" />
 
+### Raspberry PI Setup
+sudo raspi-config
+Then Advanced >> I2C >> Enable
+
 ### AWS Services Setup
 In a region with all of the referenced services create:
 * IAM Policy: WindfarmDataIngestPolicy
@@ -150,6 +154,8 @@ Subscription: WindfarmWeatherReporter >> IoT Cloud (on topic any topic)
 Subscription: WindTurbine1 >> WindTurbineSafetyCheck (on topic windturbine-data)
 
 Run this to get the GG Group CA cert for use with devices that connect:
+> aws greengrass list-groups  (get the group-id for the next command)
+> aws greengrass list-group-certificate-authorities --group-id 823492f1-xxxxxxxxxxxxxxx-723efe873caa   (get the certificate-authority-id for the next step)
 > aws greengrass get-group-certificate-authority --certificate-authority-id dad15d1xxxxxxxxxxxxxxxxxxxfd5aaba1f --group-id 1a161bbxxxxxxxxxxxxxxxx97f130 | jq -r ".PemEncodedCertificate" > myGgcRootCA.pem
 
 ### Amazon SageMaker
@@ -158,6 +164,11 @@ Run this to get the GG Group CA cert for use with devices that connect:
 * SageMaker Notebook Server: WindfarmNotebookInstance (if interested in training ml models for yourself or running analytics in a notebook)
 * S3 Bucket: windfarm-turbine-data-ml-train
 * SageMaker ML Model Artifact for GG-ML in S3 bucket: tbd
+
+### Scikit-Learn Training Server
+sudo pip install boto3
+sudo pip install pandas
+sudo pip install -U scikit-learn
 
 ### Greengrass ML Inference Setup
 * On the RPI, go do the install of MXNet as described here: https://docs.aws.amazon.com/greengrass/latest/developerguide/ml-console.html#ml-console-create-lambda
