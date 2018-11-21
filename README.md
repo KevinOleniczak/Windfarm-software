@@ -135,27 +135,32 @@ group by deviceid, thing_name
 * Kibana: Add visualizations and dashboard
 
 ### IoT Things
-IoT Thing Type: WindfarmCore (add this for gg cores)
-IoT Thing Type: WindfarmTurbine (add this for turbines)
-IoT Thing: WindTurbine1 (set the thing type)
+* IoT Thing Type: WindfarmCore (add this for gg cores)
+* IoT Thing Type: WindfarmTurbine (add this for turbines)
+* IoT Thing: WindTurbine1 (set the thing type)
 
 ### Greengrass Group Setup
-Greengrass Group Name: WindfarmGroup
-Settings: Associate the role >> WindfarmGreengrassRole, Set log levels for Error types.
-IoT Device: WindTurbine1 (or which ever number is appropriate)
-IoT Device: WindfarmGroup_Core1 (or which ever number is appropriate)
-Lambda Function: WindfarmWeatherReporter (zip archive with Greengrass SDK)
-Lambda Function: WindTurbineSafetyCheck (zip archive with Greengrass SDK)
-Local Resource: Weather (volume at /weather and make it read only) Associate it with the lambda function: WindfarmWeatherReporter
-Subscription: Local Shadow Service >> WindTurbine1 (on topic $aws/things/WindTurbine1/shadow/#)
-Subscription: WindTurbine1 >> Local Shadow Service (on topic $aws/things/WindTurbine1/shadow/#)
-Subscription: WindTurbine1 >> IoT Cloud (on topic windturbine-data)
-Subscription: WindfarmWeatherReporter >> IoT Cloud (on topic any topic)
-Subscription: WindTurbine1 >> WindTurbineSafetyCheck (on topic windturbine-data)
+* Greengrass Group Name: WindfarmGroup
+* Settings: Associate the role >> WindfarmGreengrassRole, Set log levels for Error types.
+* IoT Device: WindTurbine1 (or which ever number is appropriate)
+* IoT Device: WindfarmGroup_Core1 (or which ever number is appropriate)
+* Lambda Function: WindfarmWeatherReporter (zip archive with Greengrass SDK)
+* Lambda Function: WindTurbineSafetyCheck (zip archive with Greengrass SDK)
+* Local Resource: Weather (volume at /weather and make it read only) Associate it with the lambda function: WindfarmWeatherReporter
+* Subscription: Local Shadow Service >> WindTurbine1 (on topic $aws/things/WindTurbine1/shadow/#)
+* Subscription: WindTurbine1 >> Local Shadow Service (on topic $aws/things/WindTurbine1/shadow/#)
+* Subscription: WindTurbine1 >> IoT Cloud (on topic windturbine-data)
+* Subscription: WindfarmWeatherReporter >> IoT Cloud (on topic any topic)
+* Subscription: WindTurbine1 >> WindTurbineSafetyCheck (on topic windturbine-data)
 
 Run this to get the GG Group CA cert for use with devices that connect:
+
 > aws greengrass list-groups  (get the group-id for the next command)
+
+
 > aws greengrass list-group-certificate-authorities --group-id 823492f1-xxxxxxxxxxxxxxx-723efe873caa   (get the certificate-authority-id for the next step)
+
+
 > aws greengrass get-group-certificate-authority --certificate-authority-id dad15d1xxxxxxxxxxxxxxxxxxxfd5aaba1f --group-id 1a161bbxxxxxxxxxxxxxxxx97f130 | jq -r ".PemEncodedCertificate" > myGgcRootCA.pem
 
 ### Amazon SageMaker
@@ -166,9 +171,9 @@ Run this to get the GG Group CA cert for use with devices that connect:
 * SageMaker ML Model Artifact for GG-ML in S3 bucket: tbd
 
 ### Scikit-Learn Training Server
-sudo pip install boto3
-sudo pip install pandas
-sudo pip install -U scikit-learn
+* sudo pip install boto3
+* sudo pip install pandas
+* sudo pip install -U scikit-learn
 
 ### Greengrass ML Inference Setup
 * On the RPI, go do the install of MXNet as described here: https://docs.aws.amazon.com/greengrass/latest/developerguide/ml-console.html#ml-console-create-lambda
@@ -206,4 +211,4 @@ sudo pip install -U scikit-learn
 * Ensure turbine devices continue with the numeric numbering sequence (Alexa skill asks for turbine number)
 
 ### TODO:
-Fix WindfarmSetTurbineBrake lambda to accept thingname
+* Fix WindfarmSetTurbineBrake lambda to accept thingname
