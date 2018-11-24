@@ -12,6 +12,7 @@ from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 import Adafruit_LSM303
 import rgbled as RGBLED
+import math
 
 myUUID = str(uuid.getnode())
 print(myUUID)
@@ -33,16 +34,15 @@ accel_y_cal = 0
 accel_z_cal = 0
 
 #run with...
-#python wind_turbine_device.py -e 192.168.1.123 -r windturbines_core-ca.txt -c windturbine1-certificate.pem.crt.txt -k windturbine1-private.pem.key
-#python wind_turbine_device.py -e a321m91q8py6d4.iot.us-west-2.amazonaws.com -r aws_iot_root_ca.txt -c windturbine1-certificate.pem.crt.txt -k windturbine1-private.pem.key
-#python wind_turbine_device.py -e windfarm.awsworkshops.com -r windturbines_core-ca.txt -c windturbine1-certificate.pem.crt.txt -k windturbine1-private.pem.key
+#python wind_turbine_device.py -e windfarm.awsworkshops.com -r ggc_rootCA.pem -c 54e7cc71a9.cert.pem -k 54e7cc71a9.private.key -n WindTurbine1
+#python wind_turbine_device.py -e 192.168.1.132 -r ggc_rootCA.pem -c 54e7cc71a9.cert.pem -k 54e7cc71a9.private.key -n WindTurbine1
 
 #AWS IoT Stuff
-myClientID = "WindTurbine1"
 myAWSIoTMQTTClient = None
 myShadowClient = None
 myDeviceShadow = None
 useWebsocket = False
+myClientID = ""
 host = ""
 rootCAPath = ""
 certificatePath = ""
@@ -67,7 +67,7 @@ brakePWM = GPIO.PWM(turbine_servo_brake_pin, 50)
 brake_state = "TBD"
 brakePWM.start(3)
 
-GPIO.setup(21, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) 
+GPIO.setup(21, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 # ADC MCP3008
 # Software SPI configuration:
@@ -80,10 +80,10 @@ CS   = 8 #pin 24
 #mcp = Adafruit_MCP3008.MCP3008(23, 24, 21, 19)
 mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
-#RGB LED 
-redPin   = 5 
-greenPin = 6 
-bluePin  = 13 
+#RGB LED
+redPin   = 5
+greenPin = 6
+bluePin  = 13
 
 def aws_connect():
     # Init AWSIoTMQTTClient
@@ -331,7 +331,7 @@ def myShadowCallbackDelta(payload, responseStatus, token):
             if "data_path" in payloadDict["state"]:
                  myDataSendMode = process_data_path_changes("data_path", payloadDict["state"]["data_path"])
             if "data_fast_interval" in payloadDict["state"]:
-                 myDataInterval = process_data_path_changes("data_fast_interval", payloadDict["state"]["data_fast_interval"])
+                 myDataInterval = int(process_data_path_changes("data_fast_interval", payloadDict["state"]["data_fast_interval"]))
         except:
             print "delta cb error"
 
@@ -380,9 +380,12 @@ def evaluate_turbine_safety():
 
 def main():
     global myClientID,rpm,pulse,myAWSIoTMQTTClient,myShadowClient,myDeviceShadow,myDataSendMode,myDataInterval
-    RGBLED.blueOn 
+    RGBLED.blueOn
     my_loop_cnt = 0
+    data_sample_cnt = 0
     last_reported_speed = -1
+    myDataIntervalCnt = 19
+
     try:
         aws_connect()
         init_turbine_GPIO()
@@ -393,11 +396,34 @@ def main():
         print "Turbine Monitoring Starting..."
         RGBLED.blueOff
         RGBLED.greenOn
+
         while True:
             calculate_turbine_speed()
-            #evaluate_turbine_safety()
             calculate_turbine_vibe()
             my_loop_cnt += 1
+            peak_vibe = 0
+            vibe = 0
+            peak_vibe_x = 0
+            peak_vibe_y = 0
+            peak_vibe_z = 0
+
+            if myDataSendMode == "faster":
+                myDataIntervalCnt = myDataInterval
+            else:
+                myDataIntervalCnt = 50
+
+            #sampling of vibration between published messages
+            for data_sample_cnt in range(myDataIntervalCnt, 0, -1):
+                vibe = math.sqrt(accel_x ** 2 + accel_y ** 2 + accel_z ** 2)
+                #store the peak vibration value
+                peak_vibe = max(peak_vibe, vibe)
+                peak_vibe_x = max(peak_vibe_x, accel_x)
+                peak_vibe_y = max(peak_vibe_y, accel_y)
+                peak_vibe_z = max(peak_vibe_z, accel_z)
+
+                #check for a manual reset using the button
+                manual_turbine_reset()
+                sleep(0.1)
 
             myReport = {
                 'deviceID' : myUUID,
@@ -407,35 +433,32 @@ def main():
                 'location' : "ORD10-14",
                 'lat' : 42.888,
                 'lng' : -88.123,
-                'turbine_temp' : 75, #randint(65,90),  #temp fix
+                'turbine_temp' : 75, #temp fix
                 'turbine_speed' : rpm,
                 'turbine_rev_cnt' : pulse,
                 'turbine_voltage' : str(get_turbine_voltage()),
-                'turbine_vibe_x' : accel_x,
-                'turbine_vibe_y' : accel_y,
-                'turbine_vibe_z' : accel_z
-            }
+                'turbine_vibe_x' : peak_vibe_x,
+                'turbine_vibe_y' : peak_vibe_y,
+                'turbine_vibe_z' : peak_vibe_z,
+                'turbine_vibe_peak': peak_vibe
+                }
+
             try:
-                print('rpm:{0:.0f}-RPM pulse:{1} accel-x:{2} accel-y:{3} accel-z:{4} brake:{5} cnt:{6} voltage:{7}'.format(rpm,pulse,accel_x, accel_y, accel_z,brake_state,str(my_loop_cnt),str(get_turbine_voltage())))
+                print('rpm:{0:.0f}-RPM pulse:{1} peak-accel:{2} brake:{3} cnt:{4} voltage:{5}'.format(rpm,pulse,peak_vibe,brake_state,str(my_loop_cnt),str(get_turbine_voltage())))
                 if rpm > 0 or last_reported_speed != 0:
-                     if myDataSendMode == "fast":
-                         myTopic = "windturbine-data-fast"
+                     if myDataSendMode == "faster":
+                         myTopic = "windturbine-data-faster"
+                     elif myDataSendMode == "cheaper":
+                         myTopic = "windturbine-data-cheaper"
                      else:
                          myTopic = "windturbine-data"
 
                      last_reported_speed = rpm
                      myAWSIoTMQTTClient.publish(myTopic, json.dumps(myReport), 0)
-          
+
             except:
                 logger.warning("exception while publishing")
                 raise
-
-            manual_turbine_reset()
-
-            if myDataSendMode == "fast":
-                 sleep(myDataInterval)
-            else:
-                 sleep(10)
 
     except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
         print("Disconnecting AWS IoT")
@@ -458,7 +481,7 @@ if __name__ == "__main__":
     usageInfo = """Usage:
 
     Use certificate based mutual authentication:
-    python someprogram.py -e <endpoint> -r <rootCAFilePath> -c <certFilePath> -k <privateKeyFilePath>
+    python someprogram.py -e <endpoint> -r <rootCAFilePath> -c <certFilePath> -k <privateKeyFilePath> -n <your-thingname>
 
     Use MQTT over WebSocket:
     python someprogram.py -e <endpoint> -r <rootCAFilePath> -w
@@ -474,6 +497,8 @@ if __name__ == "__main__":
             Certificate file path
     -k, --key
             Private key file path
+    -n, --thingName
+            Unique thing name as created in IoT Core
     -w, --websocket
             Use MQTT over WebSocket
     -h, --help
@@ -483,7 +508,7 @@ if __name__ == "__main__":
 
     # Read in command-line parameters
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hwe:k:c:r:", ["help", "endpoint=", "key=","cert=","rootCA=", "websocket"])
+        opts, args = getopt.getopt(sys.argv[1:], "hwe:k:c:r:n", ["help", "endpoint=", "key=", "cert=", "rootCA=", "thingName=", "websocket"])
         if len(opts) == 0:
             raise getopt.GetoptError("No input parameters!")
         for opt, arg in opts:
@@ -498,6 +523,9 @@ if __name__ == "__main__":
                 certificatePath = arg
             if opt in ("-k", "--key"):
                 privateKeyPath = arg
+            if opt in ("-n", "--thingName"):
+                myClientID = arg
+                print(myClientID)
             if opt in ("-w", "--websocket"):
                 useWebsocket = True
     except getopt.GetoptError:
@@ -512,6 +540,9 @@ if __name__ == "__main__":
     if not rootCAPath:
         print("Missing '-r' or '--rootCA'")
         missingConfiguration = True
+    if not myClientID:
+        print("Missing '-n' or '--thingName'")
+        missingConfiguration = True
     if not useWebsocket:
         if not certificatePath:
             print("Missing '-c' or '--cert'")
@@ -525,4 +556,3 @@ if __name__ == "__main__":
     logging.basicConfig(filename='wind_turbine_device.log',level=logging.INFO,format='%(asctime)s %(message)s')
     logger.info("Welcome to the AWS Windfarm Turbine Device Reporter.")
     main()
-
