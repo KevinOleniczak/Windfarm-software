@@ -1,0 +1,667 @@
+[
+    {
+        "id": "39896eda.6f598a",
+        "type": "tab",
+        "label": "Dashboard",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "c3b67210.8a272",
+        "type": "aws-iot-device",
+        "z": "",
+        "name": "WindfarmNodeRed",
+        "mode": "broker",
+        "clientId": "Windfarm1NodeRed",
+        "endpoint": "192.168.1.132",
+        "awscerts": "/home/pi/node-red-device/"
+    },
+    {
+        "id": "cab5943d.e71ea",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#ff9900",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#ff9900",
+                    "edited": true
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#ff9900",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#ffb84d",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#ff9900",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Windfarm Dashboard",
+            "hideToolbar": "true",
+            "allowSwipe": "true",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "MM/DD/YYYY",
+            "sizes": {
+                "sx": 36,
+                "sy": 32,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "fb70bbb4.3fb48",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Status",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "74167fdf.dd77b",
+        "type": "ui_group",
+        "z": "",
+        "name": "Current",
+        "tab": "fb70bbb4.3fb48",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "6f98a133.d4c3d8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Trends",
+        "tab": "fb70bbb4.3fb48",
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "87605d23.0f28e8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Detailed",
+        "tab": "fb70bbb4.3fb48",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "dc91299d.508b98",
+        "type": "debug",
+        "z": "39896eda.6f598a",
+        "name": "debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 876.9999389648438,
+        "y": 229.49990844726562,
+        "wires": []
+    },
+    {
+        "id": "229b88ff.a7d5d",
+        "type": "aws-mqtt in",
+        "z": "39896eda.6f598a",
+        "device": "c3b67210.8a272",
+        "topic": "windturbine-data",
+        "x": 158.33331298828125,
+        "y": 134.1666717529297,
+        "wires": [
+            [
+                "f650583c.ceab4"
+            ]
+        ]
+    },
+    {
+        "id": "5493a133.710ba",
+        "type": "ui_gauge",
+        "z": "39896eda.6f598a",
+        "name": "Turbine Speed",
+        "group": "74167fdf.dd77b",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Turbine Speed",
+        "label": "MPH",
+        "format": "{{payload.turbine_speed | number:0}}",
+        "min": 0,
+        "max": "800",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "500",
+        "seg2": "700",
+        "x": 648.3333129882812,
+        "y": 71.66661071777344,
+        "wires": []
+    },
+    {
+        "id": "f650583c.ceab4",
+        "type": "json",
+        "z": "39896eda.6f598a",
+        "name": "TurbineData",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 327.9166564941406,
+        "y": 253.3333282470703,
+        "wires": [
+            [
+                "5493a133.710ba",
+                "dcb17cd1.1cebc",
+                "9e266f4d.3ed6b",
+                "4e2b716b.3eb728",
+                "cf4e8ad4.0b11b8",
+                "d0026fba.f255b8",
+                "33547276.74ba06",
+                "6965c736.feeea",
+                "23329130.d4e48e",
+                "d4b98637.58fd18",
+                "ff651de8.10af98",
+                "29a78114.ba2f6e",
+                "9c0ec0c7.e10b6",
+                "e714f5b1.459ca8",
+                "3d258849.21da2",
+                "e53b76ca.b44cf"
+            ]
+        ]
+    },
+    {
+        "id": "dcb17cd1.1cebc",
+        "type": "ui_text",
+        "z": "39896eda.6f598a",
+        "group": "74167fdf.dd77b",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Revolution Count",
+        "format": "{{payload.turbine_rev_cnt}}",
+        "layout": "row-spread",
+        "x": 655.0000610351562,
+        "y": 158.33338928222656,
+        "wires": []
+    },
+    {
+        "id": "3c558e10.a3d5ea",
+        "type": "ui_chart",
+        "z": "39896eda.6f598a",
+        "name": "Vibration Trend",
+        "group": "6f98a133.d4c3d8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Vibration",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "wtf",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "10",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 894.166259765625,
+        "y": 344.99993896484375,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9e266f4d.3ed6b",
+        "type": "function",
+        "z": "39896eda.6f598a",
+        "name": "VibePeak Series",
+        "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_peak';\nmsg2.payload = msg.payload.turbine_vibe_peak;\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 663.3333740234375,
+        "y": 289.9999694824219,
+        "wires": [
+            [
+                "3c558e10.a3d5ea",
+                "dc91299d.508b98"
+            ]
+        ]
+    },
+    {
+        "id": "4e2b716b.3eb728",
+        "type": "ui_gauge",
+        "z": "39896eda.6f598a",
+        "name": "Peak Vibration",
+        "group": "74167fdf.dd77b",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Peak Vibration",
+        "label": "",
+        "format": "{{payload.turbine_vibe_peak | number:0}}",
+        "min": 0,
+        "max": "300",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "60",
+        "seg2": "120",
+        "x": 652.4999389648438,
+        "y": 113.33332824707031,
+        "wires": []
+    },
+    {
+        "id": "cf4e8ad4.0b11b8",
+        "type": "ui_gauge",
+        "z": "39896eda.6f598a",
+        "name": "Temperature",
+        "group": "87605d23.0f28e8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "F",
+        "format": "{{payload.turbine_temp | number:0}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "80",
+        "seg2": "90",
+        "x": 868.3333129882812,
+        "y": 23.333324432373047,
+        "wires": []
+    },
+    {
+        "id": "d0026fba.f255b8",
+        "type": "ui_gauge",
+        "z": "39896eda.6f598a",
+        "name": "Vibration X",
+        "group": "87605d23.0f28e8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Vibration X",
+        "label": "",
+        "format": "{{payload.turbine_vibe_x | number:0}}",
+        "min": 0,
+        "max": "150",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "30",
+        "seg2": "60",
+        "x": 868.3333129882812,
+        "y": 62.500003814697266,
+        "wires": []
+    },
+    {
+        "id": "33547276.74ba06",
+        "type": "ui_gauge",
+        "z": "39896eda.6f598a",
+        "name": "Vibration Y",
+        "group": "87605d23.0f28e8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Vibration Y",
+        "label": "",
+        "format": "{{payload.turbine_vibe_y | number:0}}",
+        "min": 0,
+        "max": "150",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "30",
+        "seg2": "60",
+        "x": 873.3333129882812,
+        "y": 105,
+        "wires": []
+    },
+    {
+        "id": "6965c736.feeea",
+        "type": "ui_gauge",
+        "z": "39896eda.6f598a",
+        "name": "Vibration Z",
+        "group": "87605d23.0f28e8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Vibration Z",
+        "label": "",
+        "format": "{{payload.turbine_vibe_z | number:0}}",
+        "min": 0,
+        "max": "150",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "30",
+        "seg2": "60",
+        "x": 868.333251953125,
+        "y": 146.6666717529297,
+        "wires": []
+    },
+    {
+        "id": "23329130.d4e48e",
+        "type": "ui_gauge",
+        "z": "39896eda.6f598a",
+        "name": "Turbine Voltage",
+        "group": "74167fdf.dd77b",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Turbine Voltage",
+        "label": "Volts",
+        "format": "{{payload.turbine_voltage | number:3}}",
+        "min": 0,
+        "max": "0.06",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "0.03",
+        "seg2": "0.04",
+        "x": 647.4999389648438,
+        "y": 27.499996185302734,
+        "wires": []
+    },
+    {
+        "id": "d4b98637.58fd18",
+        "type": "ui_text",
+        "z": "39896eda.6f598a",
+        "group": "74167fdf.dd77b",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Thingname",
+        "label": "Turbine",
+        "format": "{{payload.thing_name}}",
+        "layout": "row-spread",
+        "x": 636.6666259765625,
+        "y": 203.3333282470703,
+        "wires": []
+    },
+    {
+        "id": "ff651de8.10af98",
+        "type": "ui_text",
+        "z": "39896eda.6f598a",
+        "group": "74167fdf.dd77b",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Location",
+        "label": "Turbine",
+        "format": "{{payload.location}}",
+        "layout": "row-spread",
+        "x": 624.1666259765625,
+        "y": 241.6666717529297,
+        "wires": []
+    },
+    {
+        "id": "29a78114.ba2f6e",
+        "type": "function",
+        "z": "39896eda.6f598a",
+        "name": "Voltage Series",
+        "func": "msg3 = {};\nmsg3.topic = 'turbine_voltage';\nmsg3.payload = msg.payload.turbine_voltage;\nmsg3.timestamp = msg.payload.timestamp;\nreturn msg3;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 662.4999389648438,
+        "y": 461.6666259765625,
+        "wires": [
+            [
+                "b9c29616.3beb1"
+            ]
+        ]
+    },
+    {
+        "id": "b9c29616.3beb1",
+        "type": "ui_chart",
+        "z": "39896eda.6f598a",
+        "name": "Voltage Trend",
+        "group": "6f98a133.d4c3d8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Voltage",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "0.06",
+        "removeOlder": "100",
+        "removeOlderPoints": "100",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 888.3333129882812,
+        "y": 458.333251953125,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9c0ec0c7.e10b6",
+        "type": "function",
+        "z": "39896eda.6f598a",
+        "name": "VibeX Series",
+        "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_x';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_x);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 643.3333129882812,
+        "y": 334.1666259765625,
+        "wires": [
+            [
+                "3c558e10.a3d5ea"
+            ]
+        ]
+    },
+    {
+        "id": "e714f5b1.459ca8",
+        "type": "function",
+        "z": "39896eda.6f598a",
+        "name": "VibeY Series",
+        "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_y';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_y);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 643.3333129882812,
+        "y": 371.6666564941406,
+        "wires": [
+            [
+                "3c558e10.a3d5ea"
+            ]
+        ]
+    },
+    {
+        "id": "3d258849.21da2",
+        "type": "function",
+        "z": "39896eda.6f598a",
+        "name": "VibeZ Series",
+        "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_z';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_z);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 643.3333129882812,
+        "y": 412.4999694824219,
+        "wires": [
+            [
+                "3c558e10.a3d5ea"
+            ]
+        ]
+    },
+    {
+        "id": "e53b76ca.b44cf",
+        "type": "function",
+        "z": "39896eda.6f598a",
+        "name": "Speed Series",
+        "func": "msg3 = {};\nmsg3.topic = 'turbine_speed';\nmsg3.payload = msg.payload.turbine_speed;\nmsg3.timestamp = msg.payload.timestamp;\nreturn msg3;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 659.1666259765625,
+        "y": 525.8333129882812,
+        "wires": [
+            [
+                "ae40dc1.9ab3e2"
+            ]
+        ]
+    },
+    {
+        "id": "ae40dc1.9ab3e2",
+        "type": "ui_chart",
+        "z": "39896eda.6f598a",
+        "name": "Speed",
+        "group": "6f98a133.d4c3d8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Speed",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1000",
+        "removeOlder": "100",
+        "removeOlderPoints": "100",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 860,
+        "y": 527.5000610351562,
+        "wires": [
+            [],
+            []
+        ]
+    }
+]
