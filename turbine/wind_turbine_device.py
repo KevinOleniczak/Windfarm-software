@@ -80,11 +80,6 @@ CS   = 8 #pin 24
 #mcp = Adafruit_MCP3008.MCP3008(23, 24, 21, 19)
 mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
-#RGB LED
-redPin   = 5
-greenPin = 6
-bluePin  = 13
-
 def aws_connect():
     # Init AWSIoTMQTTClient
     global myAWSIoTMQTTClient
@@ -221,9 +216,13 @@ def turbine_brake_action(action):
 
     if action == "ON":
         print "Applying turbine brake!"
+        RGBLED.whiteOff()
+        RGBLED.redOn()
         brakePWM.ChangeDutyCycle(11) # turn towards 180 degree
     elif action == "OFF":
         print "Resetting turbine brake."
+        RGBLED.whiteOff()
+        RGBLED.greenOn()
         brakePWM.ChangeDutyCycle(3)  # turn towards 0 degree
     else:
         return "NOT AN ACTION"
@@ -256,10 +255,12 @@ def request_turbine_brake_action(action):
     global myDeviceShadow
 
     if action == "ON":
-        RGBLED.redOn
+        RGBLED.whiteOff()
+        RGBLED.redOn()
         pass
     elif action == "OFF":
-        RGBLED.greenOn
+        RGBLED.whiteOff()
+        RGBLED.greenOn()
         pass
     else:
         return "NOT AN ACTION"
@@ -371,6 +372,7 @@ def customCallbackJobs(payload, responseStatus, token):
                  myDataInterval = process_data_path_changes("data_fast_interval", payloadDict["state"]["data_fast_interval"])
         except:
             print "delta cb error"
+
 def evaluate_turbine_safety():
     global rpm
     if rpm > 20:
@@ -380,7 +382,8 @@ def evaluate_turbine_safety():
 
 def main():
     global myClientID,rpm,pulse,myAWSIoTMQTTClient,myShadowClient,myDeviceShadow,myDataSendMode,myDataInterval
-    RGBLED.blueOn
+    RGBLED.whiteOff()
+    RGBLED.blueOn()
     my_loop_cnt = 0
     data_sample_cnt = 0
     last_reported_speed = -1
@@ -394,8 +397,8 @@ def main():
         init_turbine_brake()
         calibrate_turbine_vibe()
         print "Turbine Monitoring Starting..."
-        RGBLED.blueOff
-        RGBLED.greenOn
+        RGBLED.blueOff()
+        RGBLED.greenOn()
 
         while True:
             calculate_turbine_speed()
@@ -462,6 +465,7 @@ def main():
 
     except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
         print("Disconnecting AWS IoT")
+        RGBLED.whiteOff()
         conn_message = {
             "state": {
                 "reported": {

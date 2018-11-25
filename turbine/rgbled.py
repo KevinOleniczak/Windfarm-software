@@ -1,12 +1,18 @@
 import time, sys
+import RPi.GPIO as GPIO
 
-def blink(aGPIO, pin):
-    aGPIO.setup(pin, GPIO.OUT)
-    aGPIO.output(pin, GPIO.HIGH)
+#RGB LED
+redPin   = 5
+greenPin = 6
+bluePin  = 13
 
-def turnOff(aGPIO, pin):
-    aGPIO.setup(pin, GPIO.OUT)
-    aGPIO.output(pin, GPIO.LOW)
+def blink(pin):
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
+
+def turnOff(pin):
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
 
 def redOn():
     blink(redPin)
@@ -59,4 +65,3 @@ def whiteOff():
     turnOff(redPin)
     turnOff(greenPin)
     turnOff(bluePin)
-    
