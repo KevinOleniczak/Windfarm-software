@@ -1,17 +1,30 @@
 # Windfarm Demo Software
 
 ### Purpose:
-This project is intended to demonstrate several features of AWS IoT and related services for a practical use cases. It leverages a 3D printed wind turbine and weather station that's documented seperately.
-
-The demo hardware for these models are in a seperate repo [here](https://github.com/KevinOleniczak/Windfarm-hardware).
+This project is intended to demonstrate several features of AWS IoT and related services for an operational safety use case with a wind turbine. It leverages a 3D printed wind turbine and weather station that's documented seperately. The demo hardware for these models are in a seperate repo [here](https://github.com/KevinOleniczak/Windfarm-hardware).
 
 ### What's included:
-This demo windfarm contains several model elements that help you experience the interactions between a turbine and a monitoring station on the edge. Connectivity with the AWS Cloud is not required to observe a safety assessment that is performed with real data that published continually from the turbine.
+This demo windfarm contains several model elements that help you experience the interactions between a wind turbine and a monitoring station on the edge. Connectivity with the AWS Cloud is not required to observe a safety assessment that is performed with real data that is published continually from the turbine.
 
 <img src="windfarm_demo.jpg" width="400" />
 
 ### What does it do:
 See how industrial edge connectivity is accomplished with AWS services. An IoT device read sensor values from a wind turbine continually and publish it to a local IoT Gateway using AWS Greengrass. The gateway receives the data and performs a local inference to evaluate turbine safety based on rotation speed and vibrations. Data is selectively shared with the AWS Cloud where it can be used to build and train machine learning models, stored for analytical purposes and visualized over time on a dashboard.
+
+Noteworthy architectural features:
+* Secure IoT edge connectivity between local devices and the AWS Cloud
+* ML inference using Greengrass and Lambda with no cloud dependency to perform safety checks in near real-time
+* Route IoT data to different storage services based on need – IoT Analytics supports snapshots of data for ML training with ease
+* Perform feature engineering of data using IoT Analytics pipelines that can be applied in retrospect easily
+* Elasticity of the AWS Cloud to build and train ML models
+* State is managed using IoT shadows to request changes from the cloud and the edge
+* Data is selectively subscribed to by the cloud for visualization and ML model training
+* Re-use of Lambda functions to support multiple use case (UI, Alexa, Sumerian, etc.)
+* Use of Step Functions to orchestrate the fan-out of multiple Lambda calls concurrently to speed response time in Alexa interaction
+* Selectively data can be sent to the cloud one of three ways; normal IoT Core, Kinesis or using our newer IoT Basic Ingest method
+* Kibana requires an ElasticSearch cluster but provides the shortest delay for data refresh vs. QuickSight via Athena or IoT Analytics with a longer delay but is serverless
+* Sumerian VR provides remote visualization (CAD files imported) of current state (IoT shadow – the start of digital twin)
+
 
 ### What you need:
 * Windturbine model with electronics as described [here](https://github.com/KevinOleniczak/Windfarm-hardware/blob/master/turbine/turbine.md).
@@ -177,6 +190,7 @@ Run this to get the GG Group CA cert for use with devices that connect:
 
 ### Greengrass ML Inference Setup
 * On the RPI, go do the install of MXNet as described here: https://docs.aws.amazon.com/greengrass/latest/developerguide/ml-console.html#ml-console-create-lambda
+* Lambda Function: WindTurbineSafetyCheckIF (for greengrass)
 
 ### Kinesis Streams
 * Kinesis Stream: WindfarmTurbineStream (2 shards)
