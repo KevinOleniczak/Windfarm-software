@@ -7,14 +7,12 @@
         "info": ""
     },
     {
-        "id": "c3b67210.8a272",
-        "type": "aws-iot-device",
-        "z": "",
-        "name": "WindfarmNodeRed",
-        "mode": "broker",
-        "clientId": "Windfarm1NodeRed",
-        "endpoint": "192.168.1.132",
-        "awscerts": "/home/pi/node-red-device/"
+        "id": "899707f9.606958",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "in": [],
+        "out": []
     },
     {
         "id": "cab5943d.e71ea",
@@ -102,11 +100,11 @@
             "allowTempTheme": "true",
             "dateFormat": "MM/DD/YYYY",
             "sizes": {
-                "sx": 36,
+                "sx": 38,
                 "sy": 32,
                 "gx": 6,
                 "gy": 6,
-                "cx": 6,
+                "cx": 2,
                 "cy": 6,
                 "px": 0,
                 "py": 0
@@ -153,32 +151,60 @@
         "collapse": false
     },
     {
-        "id": "dc91299d.508b98",
-        "type": "debug",
-        "z": "39896eda.6f598a",
-        "name": "debug",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 876.9999389648438,
-        "y": 229.49990844726562,
-        "wires": []
+        "id": "a7009d00.078c6",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Control",
+        "icon": "dashboard",
+        "order": 2
     },
     {
-        "id": "229b88ff.a7d5d",
-        "type": "aws-mqtt in",
-        "z": "39896eda.6f598a",
-        "device": "c3b67210.8a272",
-        "topic": "windturbine-data",
-        "x": 158.33331298828125,
-        "y": 134.1666717529297,
-        "wires": [
-            [
-                "f650583c.ceab4"
-            ]
-        ]
+        "id": "d74c1f57.de2e8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Command & Control",
+        "tab": "a7009d00.078c6",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "4e6146e8.08f5b8",
+        "type": "tls-config",
+        "z": "",
+        "name": "",
+        "cert": "/home/pi/node-red-device/Windfarm1NodeRed.cert.pem",
+        "key": "/home/pi/node-red-device/Windfarm1NodeRed.private.key",
+        "ca": "/home/pi/node-red-device/root-CA.crt",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "192.168.1.163",
+        "verifyservercert": false
+    },
+    {
+        "id": "6341a676.8db148",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "192.168.1.147",
+        "port": "8883",
+        "tls": "4e6146e8.08f5b8",
+        "clientid": "Windfarm1NodeRed",
+        "usetls": true,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
     },
     {
         "id": "5493a133.710ba",
@@ -186,7 +212,7 @@
         "z": "39896eda.6f598a",
         "name": "Turbine Speed",
         "group": "74167fdf.dd77b",
-        "order": 3,
+        "order": 8,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -202,8 +228,8 @@
         ],
         "seg1": "500",
         "seg2": "700",
-        "x": 648.3333129882812,
-        "y": 71.66661071777344,
+        "x": 759.3333129882812,
+        "y": 108.66661071777344,
         "wires": []
     },
     {
@@ -214,8 +240,8 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 327.9166564941406,
-        "y": 253.3333282470703,
+        "x": 474.9166564941406,
+        "y": 304.3333282470703,
         "wires": [
             [
                 "5493a133.710ba",
@@ -242,15 +268,15 @@
         "type": "ui_text",
         "z": "39896eda.6f598a",
         "group": "74167fdf.dd77b",
-        "order": 2,
+        "order": 7,
         "width": 0,
         "height": 0,
         "name": "",
         "label": "Revolution Count",
         "format": "{{payload.turbine_rev_cnt}}",
         "layout": "row-spread",
-        "x": 655.0000610351562,
-        "y": 158.33338928222656,
+        "x": 772.0000610351562,
+        "y": 198.33338928222656,
         "wires": []
     },
     {
@@ -262,7 +288,7 @@
         "order": 0,
         "width": 0,
         "height": 0,
-        "label": "Vibration",
+        "label": "Turbine Vibration",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -288,8 +314,8 @@
             "#c5b0d5"
         ],
         "useOldStyle": false,
-        "x": 894.166259765625,
-        "y": 344.99993896484375,
+        "x": 1019.166259765625,
+        "y": 378.99993896484375,
         "wires": [
             [],
             []
@@ -303,12 +329,11 @@
         "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_peak';\nmsg2.payload = msg.payload.turbine_vibe_peak;\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
         "outputs": 1,
         "noerr": 0,
-        "x": 663.3333740234375,
-        "y": 289.9999694824219,
+        "x": 756.3333740234375,
+        "y": 321.9999694824219,
         "wires": [
             [
-                "3c558e10.a3d5ea",
-                "dc91299d.508b98"
+                "3c558e10.a3d5ea"
             ]
         ]
     },
@@ -318,7 +343,7 @@
         "z": "39896eda.6f598a",
         "name": "Peak Vibration",
         "group": "74167fdf.dd77b",
-        "order": 5,
+        "order": 10,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -334,8 +359,8 @@
         ],
         "seg1": "60",
         "seg2": "120",
-        "x": 652.4999389648438,
-        "y": 113.33332824707031,
+        "x": 760.4999389648438,
+        "y": 148.3333282470703,
         "wires": []
     },
     {
@@ -344,7 +369,7 @@
         "z": "39896eda.6f598a",
         "name": "Temperature",
         "group": "87605d23.0f28e8",
-        "order": 1,
+        "order": 2,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -360,8 +385,8 @@
         ],
         "seg1": "80",
         "seg2": "90",
-        "x": 868.3333129882812,
-        "y": 23.333324432373047,
+        "x": 1011.3333129882812,
+        "y": 131.33332443237305,
         "wires": []
     },
     {
@@ -370,7 +395,7 @@
         "z": "39896eda.6f598a",
         "name": "Vibration X",
         "group": "87605d23.0f28e8",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -386,8 +411,8 @@
         ],
         "seg1": "30",
         "seg2": "60",
-        "x": 868.3333129882812,
-        "y": 62.500003814697266,
+        "x": 1011.3333129882812,
+        "y": 172.50000381469727,
         "wires": []
     },
     {
@@ -396,7 +421,7 @@
         "z": "39896eda.6f598a",
         "name": "Vibration Y",
         "group": "87605d23.0f28e8",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -412,8 +437,8 @@
         ],
         "seg1": "30",
         "seg2": "60",
-        "x": 873.3333129882812,
-        "y": 105,
+        "x": 1012.3333129882812,
+        "y": 214,
         "wires": []
     },
     {
@@ -422,7 +447,7 @@
         "z": "39896eda.6f598a",
         "name": "Vibration Z",
         "group": "87605d23.0f28e8",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -438,8 +463,8 @@
         ],
         "seg1": "30",
         "seg2": "60",
-        "x": 868.333251953125,
-        "y": 146.6666717529297,
+        "x": 1010.333251953125,
+        "y": 259.6666717529297,
         "wires": []
     },
     {
@@ -448,7 +473,7 @@
         "z": "39896eda.6f598a",
         "name": "Turbine Voltage",
         "group": "74167fdf.dd77b",
-        "order": 4,
+        "order": 9,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -464,8 +489,8 @@
         ],
         "seg1": "0.03",
         "seg2": "0.04",
-        "x": 647.4999389648438,
-        "y": 27.499996185302734,
+        "x": 760.4999389648438,
+        "y": 66.49999618530273,
         "wires": []
     },
     {
@@ -480,8 +505,8 @@
         "label": "Turbine",
         "format": "{{payload.thing_name}}",
         "layout": "row-spread",
-        "x": 636.6666259765625,
-        "y": 203.3333282470703,
+        "x": 748.6666259765625,
+        "y": 236.3333282470703,
         "wires": []
     },
     {
@@ -489,15 +514,15 @@
         "type": "ui_text",
         "z": "39896eda.6f598a",
         "group": "74167fdf.dd77b",
-        "order": 1,
+        "order": 2,
         "width": 0,
         "height": 0,
         "name": "Location",
         "label": "Turbine",
         "format": "{{payload.location}}",
         "layout": "row-spread",
-        "x": 624.1666259765625,
-        "y": 241.6666717529297,
+        "x": 739.1666259765625,
+        "y": 277.6666717529297,
         "wires": []
     },
     {
@@ -508,8 +533,8 @@
         "func": "msg3 = {};\nmsg3.topic = 'turbine_voltage';\nmsg3.payload = msg.payload.turbine_voltage;\nmsg3.timestamp = msg.payload.timestamp;\nreturn msg3;",
         "outputs": 1,
         "noerr": 0,
-        "x": 662.4999389648438,
-        "y": 461.6666259765625,
+        "x": 757.4999389648438,
+        "y": 493.6666259765625,
         "wires": [
             [
                 "b9c29616.3beb1"
@@ -525,7 +550,7 @@
         "order": 0,
         "width": 0,
         "height": 0,
-        "label": "Voltage",
+        "label": "Turbine Voltage",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -551,8 +576,8 @@
             "#c5b0d5"
         ],
         "useOldStyle": false,
-        "x": 888.3333129882812,
-        "y": 458.333251953125,
+        "x": 993.3333129882812,
+        "y": 495.333251953125,
         "wires": [
             [],
             []
@@ -566,8 +591,8 @@
         "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_x';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_x);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
         "outputs": 1,
         "noerr": 0,
-        "x": 643.3333129882812,
-        "y": 334.1666259765625,
+        "x": 747.3333129882812,
+        "y": 364.1666259765625,
         "wires": [
             [
                 "3c558e10.a3d5ea"
@@ -582,8 +607,8 @@
         "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_y';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_y);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
         "outputs": 1,
         "noerr": 0,
-        "x": 643.3333129882812,
-        "y": 371.6666564941406,
+        "x": 745.3333129882812,
+        "y": 406.6666564941406,
         "wires": [
             [
                 "3c558e10.a3d5ea"
@@ -598,8 +623,8 @@
         "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_z';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_z);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
         "outputs": 1,
         "noerr": 0,
-        "x": 643.3333129882812,
-        "y": 412.4999694824219,
+        "x": 746.3333129882812,
+        "y": 446.4999694824219,
         "wires": [
             [
                 "3c558e10.a3d5ea"
@@ -614,8 +639,8 @@
         "func": "msg3 = {};\nmsg3.topic = 'turbine_speed';\nmsg3.payload = msg.payload.turbine_speed;\nmsg3.timestamp = msg.payload.timestamp;\nreturn msg3;",
         "outputs": 1,
         "noerr": 0,
-        "x": 659.1666259765625,
-        "y": 525.8333129882812,
+        "x": 755.1666259765625,
+        "y": 535.8333129882812,
         "wires": [
             [
                 "ae40dc1.9ab3e2"
@@ -631,7 +656,7 @@
         "order": 0,
         "width": 0,
         "height": 0,
-        "label": "Speed",
+        "label": "Turbine Speed",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -657,11 +682,494 @@
             "#c5b0d5"
         ],
         "useOldStyle": false,
-        "x": 860,
-        "y": 527.5000610351562,
+        "x": 965,
+        "y": 539.5000610351562,
         "wires": [
             [],
             []
+        ]
+    },
+    {
+        "id": "9ce250da.3b512",
+        "type": "ui_gauge",
+        "z": "39896eda.6f598a",
+        "name": "",
+        "group": "87605d23.0f28e8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Wind Speed",
+        "label": "MPH",
+        "format": "{{payload.observation.wind_speed | number:1}}",
+        "min": 0,
+        "max": "15",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "8",
+        "seg2": "10",
+        "x": 749,
+        "y": 596,
+        "wires": []
+    },
+    {
+        "id": "bdc5b036.68a58",
+        "type": "json",
+        "z": "39896eda.6f598a",
+        "name": "Weather",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 512,
+        "y": 595,
+        "wires": [
+            [
+                "9ce250da.3b512"
+            ]
+        ]
+    },
+    {
+        "id": "d9ac0fe2.654e6",
+        "type": "switch",
+        "z": "39896eda.6f598a",
+        "name": "windfarm data splitter",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "windturbine-data-faster",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "windturbine-data-cheaper",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "windturbine-data",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "windfarm-weather",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "$aws/things/WindTurbine1/shadow/update/documents",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 5,
+        "x": 258,
+        "y": 429,
+        "wires": [
+            [
+                "f650583c.ceab4"
+            ],
+            [
+                "f650583c.ceab4"
+            ],
+            [
+                "f650583c.ceab4"
+            ],
+            [
+                "bdc5b036.68a58"
+            ],
+            [
+                "1a41721f.d1ea5e"
+            ]
+        ]
+    },
+    {
+        "id": "b2a9954a.d5be58",
+        "type": "debug",
+        "z": "39896eda.6f598a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 516,
+        "y": 708,
+        "wires": []
+    },
+    {
+        "id": "d2e176a0.020358",
+        "type": "ui_slider",
+        "z": "39896eda.6f598a",
+        "name": "data_interval",
+        "label": "Data Delay",
+        "group": "74167fdf.dd77b",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "$aws/things/WindTurbine1/shadow/update",
+        "min": "1",
+        "max": "20",
+        "step": 1,
+        "x": 734,
+        "y": 826,
+        "wires": [
+            [
+                "84211109.ca558"
+            ]
+        ]
+    },
+    {
+        "id": "1c6ac880.d117f8",
+        "type": "template",
+        "z": "39896eda.6f598a",
+        "name": "BrakeOn",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n    \"state\": {\n        \"desired\": {\n            \"brake_status\": \"{{payload}}\"\n        }\n    }\n}",
+        "output": "str",
+        "x": 919,
+        "y": 882,
+        "wires": [
+            [
+                "5a3d197d.ccb918"
+            ]
+        ]
+    },
+    {
+        "id": "84211109.ca558",
+        "type": "template",
+        "z": "39896eda.6f598a",
+        "name": "DataInterval",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n    \"state\": {\n        \"desired\": {\n            \"data_fast_interval\": \"{{payload}}\"\n        }\n    }\n}",
+        "output": "str",
+        "x": 928,
+        "y": 826,
+        "wires": [
+            [
+                "5a3d197d.ccb918"
+            ]
+        ]
+    },
+    {
+        "id": "ee182bb9.87efc8",
+        "type": "ui_dropdown",
+        "z": "39896eda.6f598a",
+        "name": "",
+        "label": "Data Path",
+        "place": "Select option",
+        "group": "74167fdf.dd77b",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "options": [
+            {
+                "label": "Normal (IoT Core)",
+                "value": "normal",
+                "type": "str"
+            },
+            {
+                "label": "Fast (Kinesis)",
+                "value": "faster",
+                "type": "str"
+            },
+            {
+                "label": "Cheaper (Basic Ingest)",
+                "value": "cheaper",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "$aws/things/WindTurbine1/shadow/update",
+        "x": 729,
+        "y": 767,
+        "wires": [
+            [
+                "72f2cb0f.e8ee94"
+            ]
+        ]
+    },
+    {
+        "id": "72f2cb0f.e8ee94",
+        "type": "template",
+        "z": "39896eda.6f598a",
+        "name": "DataPath",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n    \"state\": {\n        \"desired\": {\n            \"data_path\": \"{{payload}}\"\n        }\n    }\n}",
+        "output": "str",
+        "x": 920,
+        "y": 767,
+        "wires": [
+            [
+                "5a3d197d.ccb918"
+            ]
+        ]
+    },
+    {
+        "id": "fe79c98d.f1fbc8",
+        "type": "aws-mqtt in",
+        "z": "899707f9.606958",
+        "device": "",
+        "topic": "",
+        "x": 224,
+        "y": 319,
+        "wires": [
+            [
+                "d8cca979.bd58d8"
+            ]
+        ]
+    },
+    {
+        "id": "d8cca979.bd58d8",
+        "type": "debug",
+        "z": "899707f9.606958",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 409,
+        "y": 368,
+        "wires": []
+    },
+    {
+        "id": "d860b110.19f4d",
+        "type": "debug",
+        "z": "39896eda.6f598a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 386,
+        "y": 153,
+        "wires": []
+    },
+    {
+        "id": "6635d0f8.8fdae",
+        "type": "ui_switch",
+        "z": "39896eda.6f598a",
+        "name": "brake_status",
+        "label": "Brakes",
+        "group": "74167fdf.dd77b",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "false",
+        "topic": "$aws/things/WindTurbine1/shadow/update",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 739,
+        "y": 883,
+        "wires": [
+            [
+                "1c6ac880.d117f8"
+            ]
+        ]
+    },
+    {
+        "id": "b228714c.28bd",
+        "type": "ui_button",
+        "z": "39896eda.6f598a",
+        "name": "",
+        "group": "d74c1f57.de2e8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Get Shadow",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "$aws/things/WindTurbine1/shadow/get",
+        "x": 836,
+        "y": 938,
+        "wires": [
+            [
+                "5a3d197d.ccb918"
+            ]
+        ]
+    },
+    {
+        "id": "4abc348a.a1c73c",
+        "type": "mqtt in",
+        "z": "39896eda.6f598a",
+        "name": "Windfarm",
+        "topic": "#",
+        "qos": "0",
+        "broker": "6341a676.8db148",
+        "x": 151,
+        "y": 273,
+        "wires": [
+            [
+                "d860b110.19f4d",
+                "d9ac0fe2.654e6"
+            ]
+        ]
+    },
+    {
+        "id": "5a3d197d.ccb918",
+        "type": "mqtt out",
+        "z": "39896eda.6f598a",
+        "name": "Shadow",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "broker": "6341a676.8db148",
+        "x": 1176,
+        "y": 857,
+        "wires": []
+    },
+    {
+        "id": "65ef7c0.c076384",
+        "type": "json",
+        "z": "39896eda.6f598a",
+        "name": "ShadowDoc",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 276,
+        "y": 822,
+        "wires": [
+            [
+                "a5edc681.24b2b8",
+                "5fffc3e0.17f56c",
+                "96109cfb.78238",
+                "b2a9954a.d5be58"
+            ]
+        ]
+    },
+    {
+        "id": "a5edc681.24b2b8",
+        "type": "change",
+        "z": "39896eda.6f598a",
+        "name": "data_path",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.current.state.reported.data_path",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 506,
+        "y": 767,
+        "wires": [
+            [
+                "ee182bb9.87efc8"
+            ]
+        ]
+    },
+    {
+        "id": "5fffc3e0.17f56c",
+        "type": "change",
+        "z": "39896eda.6f598a",
+        "name": "data_interval",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.current.state.reported.data_fast_interval",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 515,
+        "y": 822,
+        "wires": [
+            [
+                "d2e176a0.020358"
+            ]
+        ]
+    },
+    {
+        "id": "96109cfb.78238",
+        "type": "change",
+        "z": "39896eda.6f598a",
+        "name": "data_path",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.current.state.reported.brake_status",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 507,
+        "y": 882,
+        "wires": [
+            [
+                "6635d0f8.8fdae"
+            ]
+        ]
+    },
+    {
+        "id": "1a41721f.d1ea5e",
+        "type": "delay",
+        "z": "39896eda.6f598a",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 276,
+        "y": 688,
+        "wires": [
+            [
+                "65ef7c0.c076384"
+            ]
         ]
     }
 ]

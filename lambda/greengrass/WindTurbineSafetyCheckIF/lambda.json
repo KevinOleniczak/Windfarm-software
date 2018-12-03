@@ -1,0 +1,25 @@
+{
+  "lambda": {
+    "FunctionName": "WindTurbineSafetyCheckIF",
+    "Handler": "WindTurbineSafetyCheckRCF.WindTurbineSafetyCheckIF",
+    "Runtime": "python2.7",
+    "Description": "Deploy this lambda to a Greengrass core where it will do local inference send the resulting predictions to a topic"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "python",
+    "raspi",
+    "raspberrypi",
+    "machine learning",
+    "ml",
+    "ml@edge",
+    "greengrass",
+    "iot",
+    "iot edge",
+    "object classification"
+  ],
+  "authors": [
+    "AWS/Greengrass/Spectrum"
+  ]
+}
+

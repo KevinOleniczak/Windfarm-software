@@ -21,17 +21,17 @@ while True:
     windSpeed = f.read()
     f.close()
 
-    if windSpeed != last_wind_speed:
-        msg_payload = {
-            "windfarmId": myClientID,
-            "timestamp": str(datetime.datetime.utcnow().isoformat()),
-            "observation": {
-                "wind_speed": windSpeed
-            }
+    #if windSpeed != last_wind_speed:
+    msg_payload = {
+        "windfarmId": myClientID,
+        "timestamp": str(datetime.datetime.utcnow().isoformat()),
+        "observation": {
+            "wind_speed": windSpeed
         }
+    }
 
-        response = client.publish(topic='windfarm-weather', qos=0, payload=json.dumps(msg_payload).encode() )
-        last_wind_speed = windSpeed
+    response = client.publish(topic='windfarm-weather', qos=0, payload=json.dumps(msg_payload).encode() )
+    last_wind_speed = windSpeed
     sleep(10)
 
 def WindfarmWeatherReporter(event, context):

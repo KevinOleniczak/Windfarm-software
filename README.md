@@ -181,7 +181,10 @@ Run this to get the GG Group CA cert for use with devices that connect:
 * IAM Role: WindfarmNotebookRole (trusted entities sagemaker.amazonaws.com)
 * SageMaker Notebook Server: WindfarmNotebookInstance (if interested in training ml models for yourself or running analytics in a notebook)
 * S3 Bucket: windfarm-turbine-data-ml-train
-* SageMaker ML Model Artifact for GG-ML in S3 bucket: tbd
+* SageMaker ML Model Artifact for GG-ML in S3 bucket: build for your platform
+
+### SCIKIT Learn
+* Model training script: scikit-iso-forest-turbine-vibe.py (requires iam keys if running on rpi)
 
 ### Scikit-Learn Training Server
 * sudo pip install boto3
@@ -190,7 +193,7 @@ Run this to get the GG Group CA cert for use with devices that connect:
 
 ### Greengrass ML Inference Setup
 * On the RPI, go do the install of MXNet as described here: https://docs.aws.amazon.com/greengrass/latest/developerguide/ml-console.html#ml-console-create-lambda
-* Lambda Function: WindTurbineSafetyCheckIF (for greengrass)
+* Lambda Function: WindTurbineSafetyCheckIF (for greengrass - uses Isolation Forest algo)
 
 ### Kinesis Streams
 * Kinesis Stream: WindfarmTurbineStream (2 shards)
@@ -226,3 +229,4 @@ Run this to get the GG Group CA cert for use with devices that connect:
 
 ### TODO:
 * Fix WindfarmSetTurbineBrake lambda to accept thingname
+* GPIO Connector integration for Greengrass with weather station

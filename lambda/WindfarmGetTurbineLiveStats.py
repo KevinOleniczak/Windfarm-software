@@ -40,6 +40,7 @@ def lambda_handler(event, context):
             "turbine_speed": str("%.1f" % round((aTot / aCnt),1)),
             "turbine_voltage": aItem['turbine_voltage'],
             "turbine_temp": aItem['turbine_temp'],
+            "turbine_vibe_peak": str("%.0f" % round(aItem['turbine_vibe_peak'], 1)),
             "turbine_vibe_x": aItem['turbine_vibe_x'],
             "turbine_vibe_y": aItem['turbine_vibe_y'],
             "turbine_vibe_z": aItem['turbine_vibe_z']
@@ -52,6 +53,7 @@ def lambda_handler(event, context):
             "turbine_speed": "unknown",
             "turbine_voltage": "unknown",
             "turbine_temp": "unknown",
+            "turbine_vibe_peak": "unknown",
             "turbine_vibe_x": "unknown",
             "turbine_vibe_y": "unknown",
             "turbine_vibe_z": "unknown"
