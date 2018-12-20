@@ -25,6 +25,7 @@ Noteworthy architectural features:
 * Kibana requires an ElasticSearch cluster but provides the shortest delay for data refresh vs. QuickSight via Athena or IoT Analytics with a longer delay but is serverless
 * Sumerian VR provides remote visualization (CAD files imported) of current state (IoT shadow – the start of digital twin)
 
+[Demo video on YouTube](http://bit.ly/2GyUvHj)
 
 ### What you need:
 * Windturbine model with electronics as described [here](https://github.com/KevinOleniczak/Windfarm-hardware/blob/master/turbine/turbine.md).
