@@ -20,6 +20,8 @@ print(myUUID)
 logger = logging.getLogger(__name__)
 GPIO.setmode(GPIO.BCM)
 
+LED_LAST_STATE = ""
+
 # Create a LSM303 instance. Accelerometer
 accelerometer = Adafruit_LSM303.LSM303()
 # Alternatively you can specify the I2C bus with a bus parameter:
@@ -29,13 +31,13 @@ accel_y = 0
 accel_z = 0
 
 #calibration offsets
-accel_x_cal = 0
-accel_y_cal = 0
-accel_z_cal = 0
+accel_x_cal = -3
+accel_y_cal = 38
+accel_z_cal = 1052
 
 #run with...
-#python wind_turbine_device.py -e windfarm.awsworkshops.com -r ggc_rootCA.pem -c 54e7cc71a9.cert.pem -k 54e7cc71a9.private.key -n WindTurbine1
-#python wind_turbine_device.py -e 192.168.1.132 -r ggc_rootCA.pem -c 54e7cc71a9.cert.pem -k 54e7cc71a9.private.key -n WindTurbine1
+#python wind_turbine_device.py -e windfarm.awsworkshops.com -r ggc_rootCA.pem -c 54xxxxx9.cert.pem -k 54xxxxx9.private.key -n WindTurbine1
+#python wind_turbine_device.py -e 192.168.1.132 -r ggc_rootCA.pem -c 54xxxxx9.cert.pem -k 54xxxxx9.private.key -n WindTurbine1
 
 #AWS IoT Stuff
 myAWSIoTMQTTClient = None
@@ -183,8 +185,10 @@ def calibrate_turbine_vibe():
     global accel_x_cal, accel_y_cal, accel_z_cal
     # Read the X, Y, Z axis acceleration values and print them.
     accel, mag = accelerometer.read()
+    accel_x, accel_y, accel_z = accel
+    print('Vibration calibration: '+ str(accel_x) + ' ' + str(accel_y) + ' ' + str(accel_z))
     # Grab the X, Y, Z components from the reading and print them out.
-    accel_x_cal, accel_y_cal, accel_z_cal = accel
+    #accel_x_cal, accel_y_cal, accel_z_cal = accel
     return 1
 
 def calculate_turbine_vibe():
@@ -208,7 +212,7 @@ def get_turbine_voltage():
     return calcVolt
 
 def turbine_brake_action(action):
-    global brakePWM,brake_state,myDeviceShadow
+    global brakePWM,brake_state,myDeviceShadow,LED_LAST_STATE
     if action == brake_state:
         #thats already the known action state
         #print "Already there"
@@ -218,11 +222,13 @@ def turbine_brake_action(action):
         print "Applying turbine brake!"
         RGBLED.whiteOff()
         RGBLED.redOn()
+        LED_LAST_STATE = "Red"
         brakePWM.ChangeDutyCycle(11) # turn towards 180 degree
     elif action == "OFF":
         print "Resetting turbine brake."
         RGBLED.whiteOff()
         RGBLED.greenOn()
+        LED_LAST_STATE = "Green"
         brakePWM.ChangeDutyCycle(3)  # turn towards 0 degree
     else:
         return "NOT AN ACTION"
@@ -252,15 +258,17 @@ def turbine_brake_action(action):
     return brake_state
 
 def request_turbine_brake_action(action):
-    global myDeviceShadow
+    global myDeviceShadow,LED_LAST_STATE
 
     if action == "ON":
         RGBLED.whiteOff()
         RGBLED.redOn()
+        LED_LAST_STATE = "Red"
         pass
     elif action == "OFF":
         RGBLED.whiteOff()
         RGBLED.greenOn()
+        LED_LAST_STATE = "Green"
         pass
     else:
         return "NOT AN ACTION"
@@ -381,13 +389,14 @@ def evaluate_turbine_safety():
     #    turbine_brake_action("OFF")
 
 def main():
-    global myClientID,rpm,pulse,myAWSIoTMQTTClient,myShadowClient,myDeviceShadow,myDataSendMode,myDataInterval
+    global myClientID,rpm,pulse,myAWSIoTMQTTClient,myShadowClient,myDeviceShadow,myDataSendMode,myDataInterval,LED_LAST_STATE
     RGBLED.whiteOff()
     RGBLED.blueOn()
     my_loop_cnt = 0
     data_sample_cnt = 0
     last_reported_speed = -1
     myDataIntervalCnt = 19
+    myVibeDataList = []
 
     try:
         aws_connect()
@@ -397,18 +406,19 @@ def main():
         init_turbine_brake()
         calibrate_turbine_vibe()
         print "Turbine Monitoring Starting..."
-        RGBLED.blueOff()
+        RGBLED.whiteOff()
         RGBLED.greenOn()
+        LED_LAST_STATE = "Green"
 
         while True:
             calculate_turbine_speed()
-            calculate_turbine_vibe()
             my_loop_cnt += 1
             peak_vibe = 0
             vibe = 0
             peak_vibe_x = 0
             peak_vibe_y = 0
             peak_vibe_z = 0
+            del myVibeDataList[:]
 
             if myDataSendMode == "faster":
                 myDataIntervalCnt = myDataInterval
@@ -417,17 +427,20 @@ def main():
 
             #sampling of vibration between published messages
             for data_sample_cnt in range(myDataIntervalCnt, 0, -1):
+                calculate_turbine_vibe()
                 vibe = math.sqrt(accel_x ** 2 + accel_y ** 2 + accel_z ** 2)
                 #store the peak vibration value
                 peak_vibe = max(peak_vibe, vibe)
-                peak_vibe_x = max(peak_vibe_x, accel_x)
-                peak_vibe_y = max(peak_vibe_y, accel_y)
-                peak_vibe_z = max(peak_vibe_z, accel_z)
+                myVibeDataList.append(vibe)
+                peak_vibe_x = max(peak_vibe_x, abs(accel_x))
+                peak_vibe_y = max(peak_vibe_y, abs(accel_y))
+                peak_vibe_z = max(peak_vibe_z, abs(accel_z))
 
                 #check for a manual reset using the button
                 manual_turbine_reset()
                 sleep(0.1)
 
+            avg_vibe = sum(myVibeDataList) / len(myVibeDataList)
             myReport = {
                 'deviceID' : myUUID,
                 'thing_name' : myClientID,
@@ -443,11 +456,13 @@ def main():
                 'turbine_vibe_x' : peak_vibe_x,
                 'turbine_vibe_y' : peak_vibe_y,
                 'turbine_vibe_z' : peak_vibe_z,
-                'turbine_vibe_peak': peak_vibe
+                'turbine_vibe_peak': peak_vibe,
+                'turbine_vibe_avg': avg_vibe,
+                'turbine_sample_cnt': str(len(myVibeDataList))
                 }
 
             try:
-                print('rpm:{0:.0f}-RPM pulse:{1} peak-accel:{2} brake:{3} cnt:{4} voltage:{5}'.format(rpm,pulse,peak_vibe,brake_state,str(my_loop_cnt),str(get_turbine_voltage())))
+                print('rpm:{0:.0f}-RPM pulse:{1} peak-accel:{2} avg-vibe:{6} brake:{3} cnt:{4} voltage:{5}'.format(rpm,pulse,peak_vibe,brake_state,str(my_loop_cnt),str(get_turbine_voltage()),str(avg_vibe)) )
                 if rpm > 0 or last_reported_speed != 0:
                      if myDataSendMode == "faster":
                          myTopic = "windturbine-data-faster"
@@ -457,8 +472,13 @@ def main():
                          myTopic = "windturbine-data"
 
                      last_reported_speed = rpm
+                     RGBLED.whiteOff()
                      myAWSIoTMQTTClient.publish(myTopic, json.dumps(myReport), 0)
-
+                     sleep(0.08)
+                     if LED_LAST_STATE == "Red":
+                         RGBLED.redOn()
+                     else:
+                         RGBLED.greenOn()
             except:
                 logger.warning("exception while publishing")
                 raise
@@ -512,7 +532,7 @@ if __name__ == "__main__":
 
     # Read in command-line parameters
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hwe:k:c:r:n", ["help", "endpoint=", "key=", "cert=", "rootCA=", "thingName=", "websocket"])
+        opts, args = getopt.getopt(sys.argv[1:], "hwe:k:c:r:n:", ["help", "endpoint=", "key=", "cert=", "rootCA=", "thingName=", "websocket"])
         if len(opts) == 0:
             raise getopt.GetoptError("No input parameters!")
         for opt, arg in opts:

@@ -200,6 +200,15 @@ Run this to get the GG Group CA cert for use with devices that connect:
 * Kinesis Stream: WindfarmTurbineStream (2 shards)
 * Lambda Function: WindfarmTurbineStreamProcessor (event is Kinesis stream)
 
+### Node-Red setup
+Node-Red can run anywhere on the local network, including the same host that runs Greengrass.
+* Start (Install if missing) Node-Red
+* Activate Node Package: iont-node-red-contrib-aws-iot-hub
+* Activate Node Package: node-red-dashboard
+* Import Dashboard using file in repo: dashboard_flow.json
+* Add new AWS IoT thing called: Windfarm1NodeRed (transfer the certificate, private key and Greengrass group ca to the Greengrass host)
+* Configure the AWS Connection nodes to use your certificates and CA
+* Add the IoT thing Windfarm1NodeRed to your Greengrass group and add subscriptions for it to receive local shadow updates from the turbines, weather data and also turbine published measurement data.
 
 ### Alexa for Business (A4B) in us-east-1
 * IAM Policy: WindfarmAlexaSkillPolicy
@@ -210,7 +219,7 @@ Run this to get the GG Group CA cert for use with devices that connect:
 * A4B Room Profile: A4B_Room_Profile
 * A4B Private skill: Windfarm (linked to the devices)
 * Link the new private skill to the A4B account to make available for users: ask api add-private-distribution-account --skill-id amzn1.ask.skill.86aaxxxxxxxxx1e41 --stage live --account-id arn:aws:iam::1xxxxxxxxxx4:root
-* Inviate users and/or add designated Alexa devices like an Echo
+* Invite users and/or add designated Alexa devices like an Echo
 
 ### Sumerian
 * Gather turbine mast and fin OBJ files from hardware models repository (if not using the bundle)

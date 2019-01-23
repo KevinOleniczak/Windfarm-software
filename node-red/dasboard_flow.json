@@ -1,1175 +1,1128 @@
 [
-    {
-        "id": "39896eda.6f598a",
-        "type": "tab",
-        "label": "Dashboard",
-        "disabled": false,
-        "info": ""
-    },
-    {
-        "id": "899707f9.606958",
-        "type": "subflow",
-        "name": "Subflow 1",
-        "info": "",
-        "in": [],
-        "out": []
-    },
-    {
-        "id": "cab5943d.e71ea",
-        "type": "ui_base",
-        "theme": {
-            "name": "theme-dark",
-            "lightTheme": {
-                "default": "#0094CE",
-                "baseColor": "#0094CE",
-                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
-                "edited": true,
-                "reset": false
-            },
-            "darkTheme": {
-                "default": "#097479",
-                "baseColor": "#ff9900",
-                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
-                "edited": true,
-                "reset": false
-            },
-            "customTheme": {
-                "name": "Untitled Theme 1",
-                "default": "#4B7930",
-                "baseColor": "#4B7930",
-                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
-            },
-            "themeState": {
-                "base-color": {
-                    "default": "#097479",
-                    "value": "#ff9900",
-                    "edited": true
-                },
-                "page-titlebar-backgroundColor": {
-                    "value": "#ff9900",
-                    "edited": false
-                },
-                "page-backgroundColor": {
-                    "value": "#111111",
-                    "edited": false
-                },
-                "page-sidebar-backgroundColor": {
-                    "value": "#ffffff",
-                    "edited": false
-                },
-                "group-textColor": {
-                    "value": "#ffb84d",
-                    "edited": false
-                },
-                "group-borderColor": {
-                    "value": "#555555",
-                    "edited": false
-                },
-                "group-backgroundColor": {
-                    "value": "#333333",
-                    "edited": false
-                },
-                "widget-textColor": {
-                    "value": "#eeeeee",
-                    "edited": false
-                },
-                "widget-backgroundColor": {
-                    "value": "#ff9900",
-                    "edited": false
-                },
-                "widget-borderColor": {
-                    "value": "#333333",
-                    "edited": false
-                },
-                "base-font": {
-                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
-                }
-            },
-            "angularTheme": {
-                "primary": "indigo",
-                "accents": "blue",
-                "warn": "red",
-                "background": "grey"
-            }
-        },
-        "site": {
-            "name": "Windfarm Dashboard",
-            "hideToolbar": "true",
-            "allowSwipe": "true",
-            "lockMenu": "false",
-            "allowTempTheme": "true",
-            "dateFormat": "MM/DD/YYYY",
-            "sizes": {
-                "sx": 38,
-                "sy": 32,
-                "gx": 6,
-                "gy": 6,
-                "cx": 2,
-                "cy": 6,
-                "px": 0,
-                "py": 0
-            }
-        }
-    },
-    {
-        "id": "fb70bbb4.3fb48",
-        "type": "ui_tab",
-        "z": "",
-        "name": "Status",
-        "icon": "dashboard",
-        "order": 1
-    },
-    {
-        "id": "74167fdf.dd77b",
-        "type": "ui_group",
-        "z": "",
-        "name": "Current",
-        "tab": "fb70bbb4.3fb48",
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "6f98a133.d4c3d8",
-        "type": "ui_group",
-        "z": "",
-        "name": "Trends",
-        "tab": "fb70bbb4.3fb48",
-        "disp": true,
-        "width": "10",
-        "collapse": false
-    },
-    {
-        "id": "87605d23.0f28e8",
-        "type": "ui_group",
-        "z": "",
-        "name": "Detailed",
-        "tab": "fb70bbb4.3fb48",
-        "order": 3,
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "a7009d00.078c6",
-        "type": "ui_tab",
-        "z": "",
-        "name": "Control",
-        "icon": "dashboard",
-        "order": 2
-    },
-    {
-        "id": "d74c1f57.de2e8",
-        "type": "ui_group",
-        "z": "",
-        "name": "Command & Control",
-        "tab": "a7009d00.078c6",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "4e6146e8.08f5b8",
-        "type": "tls-config",
-        "z": "",
-        "name": "",
-        "cert": "/home/pi/node-red-device/Windfarm1NodeRed.cert.pem",
-        "key": "/home/pi/node-red-device/Windfarm1NodeRed.private.key",
-        "ca": "/home/pi/node-red-device/root-CA.crt",
-        "certname": "",
-        "keyname": "",
-        "caname": "",
-        "servername": "192.168.1.163",
-        "verifyservercert": false
-    },
-    {
-        "id": "6341a676.8db148",
-        "type": "mqtt-broker",
-        "z": "",
-        "name": "",
-        "broker": "192.168.1.147",
-        "port": "8883",
-        "tls": "4e6146e8.08f5b8",
-        "clientid": "Windfarm1NodeRed",
-        "usetls": true,
-        "compatmode": true,
-        "keepalive": "60",
-        "cleansession": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": ""
-    },
-    {
-        "id": "5493a133.710ba",
-        "type": "ui_gauge",
-        "z": "39896eda.6f598a",
-        "name": "Turbine Speed",
-        "group": "74167fdf.dd77b",
-        "order": 8,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Turbine Speed",
-        "label": "MPH",
-        "format": "{{payload.turbine_speed | number:0}}",
-        "min": 0,
-        "max": "800",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "500",
-        "seg2": "700",
-        "x": 759.3333129882812,
-        "y": 108.66661071777344,
-        "wires": []
-    },
-    {
-        "id": "f650583c.ceab4",
-        "type": "json",
-        "z": "39896eda.6f598a",
-        "name": "TurbineData",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 474.9166564941406,
-        "y": 304.3333282470703,
-        "wires": [
-            [
-                "5493a133.710ba",
-                "dcb17cd1.1cebc",
-                "9e266f4d.3ed6b",
-                "4e2b716b.3eb728",
-                "cf4e8ad4.0b11b8",
-                "d0026fba.f255b8",
-                "33547276.74ba06",
-                "6965c736.feeea",
-                "23329130.d4e48e",
-                "d4b98637.58fd18",
-                "ff651de8.10af98",
-                "29a78114.ba2f6e",
-                "9c0ec0c7.e10b6",
-                "e714f5b1.459ca8",
-                "3d258849.21da2",
-                "e53b76ca.b44cf"
-            ]
-        ]
-    },
-    {
-        "id": "dcb17cd1.1cebc",
-        "type": "ui_text",
-        "z": "39896eda.6f598a",
-        "group": "74167fdf.dd77b",
-        "order": 7,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Revolution Count",
-        "format": "{{payload.turbine_rev_cnt}}",
-        "layout": "row-spread",
-        "x": 772.0000610351562,
-        "y": 198.33338928222656,
-        "wires": []
-    },
-    {
-        "id": "3c558e10.a3d5ea",
-        "type": "ui_chart",
-        "z": "39896eda.6f598a",
-        "name": "Vibration Trend",
-        "group": "6f98a133.d4c3d8",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "label": "Turbine Vibration",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "wtf",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": "10",
-        "removeOlderPoints": "",
-        "removeOlderUnit": "60",
-        "cutout": 0,
-        "useOneColor": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "useOldStyle": false,
-        "x": 1019.166259765625,
-        "y": 378.99993896484375,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "9e266f4d.3ed6b",
-        "type": "function",
-        "z": "39896eda.6f598a",
-        "name": "VibePeak Series",
-        "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_peak';\nmsg2.payload = msg.payload.turbine_vibe_peak;\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 756.3333740234375,
-        "y": 321.9999694824219,
-        "wires": [
-            [
-                "3c558e10.a3d5ea"
-            ]
-        ]
-    },
-    {
-        "id": "4e2b716b.3eb728",
-        "type": "ui_gauge",
-        "z": "39896eda.6f598a",
-        "name": "Peak Vibration",
-        "group": "74167fdf.dd77b",
-        "order": 10,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Peak Vibration",
-        "label": "",
-        "format": "{{payload.turbine_vibe_peak | number:0}}",
-        "min": 0,
-        "max": "300",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "60",
-        "seg2": "120",
-        "x": 760.4999389648438,
-        "y": 148.3333282470703,
-        "wires": []
-    },
-    {
-        "id": "cf4e8ad4.0b11b8",
-        "type": "ui_gauge",
-        "z": "39896eda.6f598a",
-        "name": "Temperature",
-        "group": "87605d23.0f28e8",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Temperature",
-        "label": "F",
-        "format": "{{payload.turbine_temp | number:0}}",
-        "min": 0,
-        "max": "100",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "80",
-        "seg2": "90",
-        "x": 1011.3333129882812,
-        "y": 131.33332443237305,
-        "wires": []
-    },
-    {
-        "id": "d0026fba.f255b8",
-        "type": "ui_gauge",
-        "z": "39896eda.6f598a",
-        "name": "Vibration X",
-        "group": "87605d23.0f28e8",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Vibration X",
-        "label": "",
-        "format": "{{payload.turbine_vibe_x | number:0}}",
-        "min": 0,
-        "max": "150",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "30",
-        "seg2": "60",
-        "x": 1011.3333129882812,
-        "y": 172.50000381469727,
-        "wires": []
-    },
-    {
-        "id": "33547276.74ba06",
-        "type": "ui_gauge",
-        "z": "39896eda.6f598a",
-        "name": "Vibration Y",
-        "group": "87605d23.0f28e8",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Vibration Y",
-        "label": "",
-        "format": "{{payload.turbine_vibe_y | number:0}}",
-        "min": 0,
-        "max": "150",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "30",
-        "seg2": "60",
-        "x": 1012.3333129882812,
-        "y": 214,
-        "wires": []
-    },
-    {
-        "id": "6965c736.feeea",
-        "type": "ui_gauge",
-        "z": "39896eda.6f598a",
-        "name": "Vibration Z",
-        "group": "87605d23.0f28e8",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Vibration Z",
-        "label": "",
-        "format": "{{payload.turbine_vibe_z | number:0}}",
-        "min": 0,
-        "max": "150",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "30",
-        "seg2": "60",
-        "x": 1010.333251953125,
-        "y": 259.6666717529297,
-        "wires": []
-    },
-    {
-        "id": "23329130.d4e48e",
-        "type": "ui_gauge",
-        "z": "39896eda.6f598a",
-        "name": "Turbine Voltage",
-        "group": "74167fdf.dd77b",
-        "order": 9,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Turbine Voltage",
-        "label": "Volts",
-        "format": "{{payload.turbine_voltage | number:3}}",
-        "min": 0,
-        "max": "0.06",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "0.03",
-        "seg2": "0.04",
-        "x": 760.4999389648438,
-        "y": 66.49999618530273,
-        "wires": []
-    },
-    {
-        "id": "d4b98637.58fd18",
-        "type": "ui_text",
-        "z": "39896eda.6f598a",
-        "group": "74167fdf.dd77b",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "name": "Thingname",
-        "label": "Turbine",
-        "format": "{{payload.thing_name}}",
-        "layout": "row-spread",
-        "x": 748.6666259765625,
-        "y": 236.3333282470703,
-        "wires": []
-    },
-    {
-        "id": "ff651de8.10af98",
-        "type": "ui_text",
-        "z": "39896eda.6f598a",
-        "group": "74167fdf.dd77b",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "name": "Location",
-        "label": "Turbine",
-        "format": "{{payload.location}}",
-        "layout": "row-spread",
-        "x": 739.1666259765625,
-        "y": 277.6666717529297,
-        "wires": []
-    },
-    {
-        "id": "29a78114.ba2f6e",
-        "type": "function",
-        "z": "39896eda.6f598a",
-        "name": "Voltage Series",
-        "func": "msg3 = {};\nmsg3.topic = 'turbine_voltage';\nmsg3.payload = msg.payload.turbine_voltage;\nmsg3.timestamp = msg.payload.timestamp;\nreturn msg3;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 757.4999389648438,
-        "y": 493.6666259765625,
-        "wires": [
-            [
-                "b9c29616.3beb1"
-            ]
-        ]
-    },
-    {
-        "id": "b9c29616.3beb1",
-        "type": "ui_chart",
-        "z": "39896eda.6f598a",
-        "name": "Voltage Trend",
-        "group": "6f98a133.d4c3d8",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "label": "Turbine Voltage",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "0",
-        "ymax": "0.06",
-        "removeOlder": "100",
-        "removeOlderPoints": "100",
-        "removeOlderUnit": "60",
-        "cutout": 0,
-        "useOneColor": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "useOldStyle": false,
-        "x": 993.3333129882812,
-        "y": 495.333251953125,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "9c0ec0c7.e10b6",
-        "type": "function",
-        "z": "39896eda.6f598a",
-        "name": "VibeX Series",
-        "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_x';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_x);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 747.3333129882812,
-        "y": 364.1666259765625,
-        "wires": [
-            [
-                "3c558e10.a3d5ea"
-            ]
-        ]
-    },
-    {
-        "id": "e714f5b1.459ca8",
-        "type": "function",
-        "z": "39896eda.6f598a",
-        "name": "VibeY Series",
-        "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_y';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_y);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 745.3333129882812,
-        "y": 406.6666564941406,
-        "wires": [
-            [
-                "3c558e10.a3d5ea"
-            ]
-        ]
-    },
-    {
-        "id": "3d258849.21da2",
-        "type": "function",
-        "z": "39896eda.6f598a",
-        "name": "VibeZ Series",
-        "func": "msg2 = {};\nmsg2.topic = 'turbine_vibe_z';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_z);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 746.3333129882812,
-        "y": 446.4999694824219,
-        "wires": [
-            [
-                "3c558e10.a3d5ea"
-            ]
-        ]
-    },
-    {
-        "id": "e53b76ca.b44cf",
-        "type": "function",
-        "z": "39896eda.6f598a",
-        "name": "Speed Series",
-        "func": "msg3 = {};\nmsg3.topic = 'turbine_speed';\nmsg3.payload = msg.payload.turbine_speed;\nmsg3.timestamp = msg.payload.timestamp;\nreturn msg3;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 755.1666259765625,
-        "y": 535.8333129882812,
-        "wires": [
-            [
-                "ae40dc1.9ab3e2"
-            ]
-        ]
-    },
-    {
-        "id": "ae40dc1.9ab3e2",
-        "type": "ui_chart",
-        "z": "39896eda.6f598a",
-        "name": "Speed",
-        "group": "6f98a133.d4c3d8",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "label": "Turbine Speed",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "0",
-        "ymax": "1000",
-        "removeOlder": "100",
-        "removeOlderPoints": "100",
-        "removeOlderUnit": "60",
-        "cutout": 0,
-        "useOneColor": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "useOldStyle": false,
-        "x": 965,
-        "y": 539.5000610351562,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "9ce250da.3b512",
-        "type": "ui_gauge",
-        "z": "39896eda.6f598a",
-        "name": "",
-        "group": "87605d23.0f28e8",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Wind Speed",
-        "label": "MPH",
-        "format": "{{payload.observation.wind_speed | number:1}}",
-        "min": 0,
-        "max": "15",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "8",
-        "seg2": "10",
-        "x": 749,
-        "y": 596,
-        "wires": []
-    },
-    {
-        "id": "bdc5b036.68a58",
-        "type": "json",
-        "z": "39896eda.6f598a",
-        "name": "Weather",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 512,
-        "y": 595,
-        "wires": [
-            [
-                "9ce250da.3b512"
-            ]
-        ]
-    },
-    {
-        "id": "d9ac0fe2.654e6",
-        "type": "switch",
-        "z": "39896eda.6f598a",
-        "name": "windfarm data splitter",
-        "property": "topic",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "windturbine-data-faster",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "windturbine-data-cheaper",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "windturbine-data",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "windfarm-weather",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "$aws/things/WindTurbine1/shadow/update/documents",
-                "vt": "str"
-            }
-        ],
-        "checkall": "false",
-        "repair": false,
-        "outputs": 5,
-        "x": 258,
-        "y": 429,
-        "wires": [
-            [
-                "f650583c.ceab4"
-            ],
-            [
-                "f650583c.ceab4"
-            ],
-            [
-                "f650583c.ceab4"
-            ],
-            [
-                "bdc5b036.68a58"
-            ],
-            [
-                "1a41721f.d1ea5e"
-            ]
-        ]
-    },
-    {
-        "id": "b2a9954a.d5be58",
-        "type": "debug",
-        "z": "39896eda.6f598a",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 516,
-        "y": 708,
-        "wires": []
-    },
-    {
-        "id": "d2e176a0.020358",
-        "type": "ui_slider",
-        "z": "39896eda.6f598a",
-        "name": "data_interval",
-        "label": "Data Delay",
-        "group": "74167fdf.dd77b",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "end",
-        "topic": "$aws/things/WindTurbine1/shadow/update",
-        "min": "1",
-        "max": "20",
-        "step": 1,
-        "x": 734,
-        "y": 826,
-        "wires": [
-            [
-                "84211109.ca558"
-            ]
-        ]
-    },
-    {
-        "id": "1c6ac880.d117f8",
-        "type": "template",
-        "z": "39896eda.6f598a",
-        "name": "BrakeOn",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "json",
-        "syntax": "mustache",
-        "template": "{\n    \"state\": {\n        \"desired\": {\n            \"brake_status\": \"{{payload}}\"\n        }\n    }\n}",
-        "output": "str",
-        "x": 919,
-        "y": 882,
-        "wires": [
-            [
-                "5a3d197d.ccb918"
-            ]
-        ]
-    },
-    {
-        "id": "84211109.ca558",
-        "type": "template",
-        "z": "39896eda.6f598a",
-        "name": "DataInterval",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "json",
-        "syntax": "mustache",
-        "template": "{\n    \"state\": {\n        \"desired\": {\n            \"data_fast_interval\": \"{{payload}}\"\n        }\n    }\n}",
-        "output": "str",
-        "x": 928,
-        "y": 826,
-        "wires": [
-            [
-                "5a3d197d.ccb918"
-            ]
-        ]
-    },
-    {
-        "id": "ee182bb9.87efc8",
-        "type": "ui_dropdown",
-        "z": "39896eda.6f598a",
-        "name": "",
-        "label": "Data Path",
-        "place": "Select option",
-        "group": "74167fdf.dd77b",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "options": [
-            {
-                "label": "Normal (IoT Core)",
-                "value": "normal",
-                "type": "str"
-            },
-            {
-                "label": "Fast (Kinesis)",
-                "value": "faster",
-                "type": "str"
-            },
-            {
-                "label": "Cheaper (Basic Ingest)",
-                "value": "cheaper",
-                "type": "str"
-            }
-        ],
-        "payload": "",
-        "topic": "$aws/things/WindTurbine1/shadow/update",
-        "x": 729,
-        "y": 767,
-        "wires": [
-            [
-                "72f2cb0f.e8ee94"
-            ]
-        ]
-    },
-    {
-        "id": "72f2cb0f.e8ee94",
-        "type": "template",
-        "z": "39896eda.6f598a",
-        "name": "DataPath",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "json",
-        "syntax": "mustache",
-        "template": "{\n    \"state\": {\n        \"desired\": {\n            \"data_path\": \"{{payload}}\"\n        }\n    }\n}",
-        "output": "str",
-        "x": 920,
-        "y": 767,
-        "wires": [
-            [
-                "5a3d197d.ccb918"
-            ]
-        ]
-    },
-    {
-        "id": "fe79c98d.f1fbc8",
-        "type": "aws-mqtt in",
-        "z": "899707f9.606958",
-        "device": "",
-        "topic": "",
-        "x": 224,
-        "y": 319,
-        "wires": [
-            [
-                "d8cca979.bd58d8"
-            ]
-        ]
-    },
-    {
-        "id": "d8cca979.bd58d8",
-        "type": "debug",
-        "z": "899707f9.606958",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "x": 409,
-        "y": 368,
-        "wires": []
-    },
-    {
-        "id": "d860b110.19f4d",
-        "type": "debug",
-        "z": "39896eda.6f598a",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 386,
-        "y": 153,
-        "wires": []
-    },
-    {
-        "id": "6635d0f8.8fdae",
-        "type": "ui_switch",
-        "z": "39896eda.6f598a",
-        "name": "brake_status",
-        "label": "Brakes",
-        "group": "74167fdf.dd77b",
-        "order": 6,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "decouple": "false",
-        "topic": "$aws/things/WindTurbine1/shadow/update",
-        "style": "",
-        "onvalue": "ON",
-        "onvalueType": "str",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "OFF",
-        "offvalueType": "str",
-        "officon": "",
-        "offcolor": "",
-        "x": 739,
-        "y": 883,
-        "wires": [
-            [
-                "1c6ac880.d117f8"
-            ]
-        ]
-    },
-    {
-        "id": "b228714c.28bd",
-        "type": "ui_button",
-        "z": "39896eda.6f598a",
-        "name": "",
-        "group": "d74c1f57.de2e8",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Get Shadow",
-        "color": "",
-        "bgcolor": "",
-        "icon": "",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "$aws/things/WindTurbine1/shadow/get",
-        "x": 836,
-        "y": 938,
-        "wires": [
-            [
-                "5a3d197d.ccb918"
-            ]
-        ]
-    },
-    {
-        "id": "4abc348a.a1c73c",
-        "type": "mqtt in",
-        "z": "39896eda.6f598a",
-        "name": "Windfarm",
-        "topic": "#",
-        "qos": "0",
-        "broker": "6341a676.8db148",
-        "x": 151,
-        "y": 273,
-        "wires": [
-            [
-                "d860b110.19f4d",
-                "d9ac0fe2.654e6"
-            ]
-        ]
-    },
-    {
-        "id": "5a3d197d.ccb918",
-        "type": "mqtt out",
-        "z": "39896eda.6f598a",
-        "name": "Shadow",
-        "topic": "",
-        "qos": "0",
-        "retain": "false",
-        "broker": "6341a676.8db148",
-        "x": 1176,
-        "y": 857,
-        "wires": []
-    },
-    {
-        "id": "65ef7c0.c076384",
-        "type": "json",
-        "z": "39896eda.6f598a",
-        "name": "ShadowDoc",
-        "property": "payload",
-        "action": "obj",
-        "pretty": true,
-        "x": 276,
-        "y": 822,
-        "wires": [
-            [
-                "a5edc681.24b2b8",
-                "5fffc3e0.17f56c",
-                "96109cfb.78238",
-                "b2a9954a.d5be58"
-            ]
-        ]
-    },
-    {
-        "id": "a5edc681.24b2b8",
-        "type": "change",
-        "z": "39896eda.6f598a",
-        "name": "data_path",
-        "rules": [
-            {
-                "t": "move",
-                "p": "payload.current.state.reported.data_path",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 506,
-        "y": 767,
-        "wires": [
-            [
-                "ee182bb9.87efc8"
-            ]
-        ]
-    },
-    {
-        "id": "5fffc3e0.17f56c",
-        "type": "change",
-        "z": "39896eda.6f598a",
-        "name": "data_interval",
-        "rules": [
-            {
-                "t": "move",
-                "p": "payload.current.state.reported.data_fast_interval",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 515,
-        "y": 822,
-        "wires": [
-            [
-                "d2e176a0.020358"
-            ]
-        ]
-    },
-    {
-        "id": "96109cfb.78238",
-        "type": "change",
-        "z": "39896eda.6f598a",
-        "name": "data_path",
-        "rules": [
-            {
-                "t": "move",
-                "p": "payload.current.state.reported.brake_status",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 507,
-        "y": 882,
-        "wires": [
-            [
-                "6635d0f8.8fdae"
-            ]
-        ]
-    },
-    {
-        "id": "1a41721f.d1ea5e",
-        "type": "delay",
-        "z": "39896eda.6f598a",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 276,
-        "y": 688,
-        "wires": [
-            [
-                "65ef7c0.c076384"
-            ]
-        ]
-    }
+   {
+      "id":"39896eda.6f598a",
+      "type":"tab",
+      "label":"Dashboard",
+      "disabled":false,
+      "info":""
+   },
+   {
+      "id":"5493a133.710ba",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"Turbine Speed",
+      "group":"74167fdf.dd77b",
+      "order":8,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Turbine Speed",
+      "label":"MPH",
+      "format":"{{payload.turbine_speed | number:0}}",
+      "min":0,
+      "max":"800",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"500",
+      "seg2":"700",
+      "x":759.3333129882812,
+      "y":108.66661071777344,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"f650583c.ceab4",
+      "type":"json",
+      "z":"39896eda.6f598a",
+      "name":"TurbineData",
+      "property":"payload",
+      "action":"obj",
+      "pretty":false,
+      "x":474.9166564941406,
+      "y":304.3333282470703,
+      "wires":[
+         [
+            "5493a133.710ba",
+            "dcb17cd1.1cebc",
+            "9e266f4d.3ed6b",
+            "4e2b716b.3eb728",
+            "cf4e8ad4.0b11b8",
+            "d0026fba.f255b8",
+            "33547276.74ba06",
+            "6965c736.feeea",
+            "23329130.d4e48e",
+            "d4b98637.58fd18",
+            "ff651de8.10af98",
+            "29a78114.ba2f6e",
+            "9c0ec0c7.e10b6",
+            "e714f5b1.459ca8",
+            "3d258849.21da2",
+            "e53b76ca.b44cf",
+            "2f75c852.0364a",
+            "bf89235e.0b5778"
+         ]
+      ]
+   },
+   {
+      "id":"dcb17cd1.1cebc",
+      "type":"ui_text",
+      "z":"39896eda.6f598a",
+      "group":"74167fdf.dd77b",
+      "order":7,
+      "width":0,
+      "height":0,
+      "name":"",
+      "label":"Revolution Count",
+      "format":"{{payload.turbine_rev_cnt}}",
+      "layout":"row-spread",
+      "x":772.0000610351562,
+      "y":198.33338928222656,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"3c558e10.a3d5ea",
+      "type":"ui_chart",
+      "z":"39896eda.6f598a",
+      "name":"Vibration Trend",
+      "group":"6f98a133.d4c3d8",
+      "order":0,
+      "width":0,
+      "height":0,
+      "label":"Turbine Vibration",
+      "chartType":"line",
+      "legend":"false",
+      "xformat":"HH:mm:ss",
+      "interpolate":"step",
+      "nodata":"no data",
+      "dot":false,
+      "ymin":"",
+      "ymax":"",
+      "removeOlder":"10",
+      "removeOlderPoints":"",
+      "removeOlderUnit":"60",
+      "cutout":0,
+      "useOneColor":false,
+      "colors":[
+         "#1f77b4",
+         "#aec7e8",
+         "#ff7f0e",
+         "#2ca02c",
+         "#98df8a",
+         "#d62728",
+         "#ff9896",
+         "#9467bd",
+         "#c5b0d5"
+      ],
+      "useOldStyle":false,
+      "x":1019.166259765625,
+      "y":378.99993896484375,
+      "wires":[
+         [
+
+         ],
+         [
+
+         ]
+      ]
+   },
+   {
+      "id":"9e266f4d.3ed6b",
+      "type":"function",
+      "z":"39896eda.6f598a",
+      "name":"VibePeak Series",
+      "func":"msg2 = {};\nmsg2.topic = 'turbine_vibe_peak';\nmsg2.payload = msg.payload.turbine_vibe_peak;\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+      "outputs":1,
+      "noerr":0,
+      "x":764.3333740234375,
+      "y":321.9999694824219,
+      "wires":[
+         [
+            "3c558e10.a3d5ea"
+         ]
+      ]
+   },
+   {
+      "id":"4e2b716b.3eb728",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"Peak Vibration",
+      "group":"74167fdf.dd77b",
+      "order":10,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Peak Vibration",
+      "label":"",
+      "format":"{{payload.turbine_vibe_peak | number:0}}",
+      "min":0,
+      "max":"350",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"100",
+      "seg2":"250",
+      "x":760.4999389648438,
+      "y":148.3333282470703,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"cf4e8ad4.0b11b8",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"Temperature",
+      "group":"87605d23.0f28e8",
+      "order":2,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Turbine Temperature",
+      "label":"F",
+      "format":"{{payload.turbine_temp | number:0}}",
+      "min":0,
+      "max":"100",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"80",
+      "seg2":"90",
+      "x":1011.3333129882812,
+      "y":131.33332443237305,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"d0026fba.f255b8",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"Vibration X",
+      "group":"87605d23.0f28e8",
+      "order":3,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Vibration X",
+      "label":"",
+      "format":"{{payload.turbine_vibe_x | number:0}}",
+      "min":0,
+      "max":"350",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"200",
+      "seg2":"250",
+      "x":1011.3333129882812,
+      "y":172.50000381469727,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"33547276.74ba06",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"Vibration Y",
+      "group":"87605d23.0f28e8",
+      "order":4,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Vibration Y",
+      "label":"",
+      "format":"{{payload.turbine_vibe_y | number:0}}",
+      "min":0,
+      "max":"200",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"100",
+      "seg2":"150",
+      "x":1012.3333129882812,
+      "y":214,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"6965c736.feeea",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"Vibration Z",
+      "group":"87605d23.0f28e8",
+      "order":5,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Vibration Z",
+      "label":"",
+      "format":"{{payload.turbine_vibe_z | number:0}}",
+      "min":0,
+      "max":"150",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"30",
+      "seg2":"60",
+      "x":1010.333251953125,
+      "y":259.6666717529297,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"23329130.d4e48e",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"Turbine Voltage",
+      "group":"74167fdf.dd77b",
+      "order":9,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Turbine Voltage",
+      "label":"Volts",
+      "format":"{{payload.turbine_voltage | number:3}}",
+      "min":0,
+      "max":"0.07",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"0.04",
+      "seg2":"0.05",
+      "x":760.4999389648438,
+      "y":66.49999618530273,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"d4b98637.58fd18",
+      "type":"ui_text",
+      "z":"39896eda.6f598a",
+      "group":"74167fdf.dd77b",
+      "order":1,
+      "width":0,
+      "height":0,
+      "name":"Thingname",
+      "label":"Turbine",
+      "format":"{{payload.thing_name}}",
+      "layout":"row-spread",
+      "x":748.6666259765625,
+      "y":236.3333282470703,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"ff651de8.10af98",
+      "type":"ui_text",
+      "z":"39896eda.6f598a",
+      "group":"74167fdf.dd77b",
+      "order":2,
+      "width":0,
+      "height":0,
+      "name":"Location",
+      "label":"Turbine",
+      "format":"{{payload.location}}",
+      "layout":"row-spread",
+      "x":739.1666259765625,
+      "y":277.6666717529297,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"29a78114.ba2f6e",
+      "type":"function",
+      "z":"39896eda.6f598a",
+      "name":"Voltage Series",
+      "func":"msg3 = {};\nmsg3.topic = 'turbine_voltage';\nmsg3.payload = msg.payload.turbine_voltage;\nmsg3.timestamp = msg.payload.timestamp;\nreturn msg3;",
+      "outputs":1,
+      "noerr":0,
+      "x":756.4999389648438,
+      "y":530.6666259765625,
+      "wires":[
+         [
+            "b9c29616.3beb1"
+         ]
+      ]
+   },
+   {
+      "id":"b9c29616.3beb1",
+      "type":"ui_chart",
+      "z":"39896eda.6f598a",
+      "name":"Voltage Trend",
+      "group":"6f98a133.d4c3d8",
+      "order":0,
+      "width":0,
+      "height":0,
+      "label":"Turbine Voltage",
+      "chartType":"line",
+      "legend":"false",
+      "xformat":"HH:mm:ss",
+      "interpolate":"linear",
+      "nodata":"",
+      "dot":false,
+      "ymin":"0",
+      "ymax":"0.07",
+      "removeOlder":"100",
+      "removeOlderPoints":"100",
+      "removeOlderUnit":"60",
+      "cutout":0,
+      "useOneColor":false,
+      "colors":[
+         "#1f77b4",
+         "#aec7e8",
+         "#ff7f0e",
+         "#2ca02c",
+         "#98df8a",
+         "#d62728",
+         "#ff9896",
+         "#9467bd",
+         "#c5b0d5"
+      ],
+      "useOldStyle":false,
+      "x":997.333251953125,
+      "y":530.333251953125,
+      "wires":[
+         [
+
+         ],
+         [
+
+         ]
+      ]
+   },
+   {
+      "id":"9c0ec0c7.e10b6",
+      "type":"function",
+      "z":"39896eda.6f598a",
+      "name":"VibeX Series",
+      "func":"msg2 = {};\nmsg2.topic = 'turbine_vibe_x';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_x);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+      "outputs":1,
+      "noerr":0,
+      "x":747.3333129882812,
+      "y":364.1666259765625,
+      "wires":[
+         [
+
+         ]
+      ]
+   },
+   {
+      "id":"e714f5b1.459ca8",
+      "type":"function",
+      "z":"39896eda.6f598a",
+      "name":"VibeY Series",
+      "func":"msg2 = {};\nmsg2.topic = 'turbine_vibe_y';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_y);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+      "outputs":1,
+      "noerr":0,
+      "x":745.3333129882812,
+      "y":406.6666564941406,
+      "wires":[
+         [
+
+         ]
+      ]
+   },
+   {
+      "id":"3d258849.21da2",
+      "type":"function",
+      "z":"39896eda.6f598a",
+      "name":"VibeZ Series",
+      "func":"msg2 = {};\nmsg2.topic = 'turbine_vibe_z';\nmsg2.payload = Math.abs(msg.payload.turbine_vibe_z);\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+      "outputs":1,
+      "noerr":0,
+      "x":746.3333129882812,
+      "y":446.4999694824219,
+      "wires":[
+         [
+
+         ]
+      ]
+   },
+   {
+      "id":"e53b76ca.b44cf",
+      "type":"function",
+      "z":"39896eda.6f598a",
+      "name":"Speed Series",
+      "func":"msg3 = {};\nmsg3.topic = 'turbine_speed';\nmsg3.payload = msg.payload.turbine_speed;\nmsg3.timestamp = msg.payload.timestamp;\nreturn msg3;",
+      "outputs":1,
+      "noerr":0,
+      "x":755.1666259765625,
+      "y":573.8333129882812,
+      "wires":[
+         [
+            "ae40dc1.9ab3e2"
+         ]
+      ]
+   },
+   {
+      "id":"ae40dc1.9ab3e2",
+      "type":"ui_chart",
+      "z":"39896eda.6f598a",
+      "name":"Speed",
+      "group":"6f98a133.d4c3d8",
+      "order":0,
+      "width":0,
+      "height":0,
+      "label":"Turbine Speed",
+      "chartType":"line",
+      "legend":"false",
+      "xformat":"HH:mm:ss",
+      "interpolate":"linear",
+      "nodata":"",
+      "dot":false,
+      "ymin":"0",
+      "ymax":"1000",
+      "removeOlder":"100",
+      "removeOlderPoints":"100",
+      "removeOlderUnit":"60",
+      "cutout":0,
+      "useOneColor":false,
+      "colors":[
+         "#1f77b4",
+         "#aec7e8",
+         "#ff7f0e",
+         "#2ca02c",
+         "#98df8a",
+         "#d62728",
+         "#ff9896",
+         "#9467bd",
+         "#c5b0d5"
+      ],
+      "useOldStyle":false,
+      "x":968,
+      "y":574.5000610351562,
+      "wires":[
+         [
+
+         ],
+         [
+
+         ]
+      ]
+   },
+   {
+      "id":"9ce250da.3b512",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"",
+      "group":"87605d23.0f28e8",
+      "order":1,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Wind Speed",
+      "label":"MPH",
+      "format":"{{payload.observation.wind_speed | number:1}}",
+      "min":0,
+      "max":"15",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"8",
+      "seg2":"10",
+      "x":745,
+      "y":641,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"bdc5b036.68a58",
+      "type":"json",
+      "z":"39896eda.6f598a",
+      "name":"Weather",
+      "property":"payload",
+      "action":"obj",
+      "pretty":false,
+      "x":508,
+      "y":641,
+      "wires":[
+         [
+            "9ce250da.3b512"
+         ]
+      ]
+   },
+   {
+      "id":"d9ac0fe2.654e6",
+      "type":"switch",
+      "z":"39896eda.6f598a",
+      "name":"windfarm data splitter",
+      "property":"topic",
+      "propertyType":"msg",
+      "rules":[
+         {
+            "t":"eq",
+            "v":"windturbine-data-faster",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"windturbine-data-cheaper",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"windturbine-data",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"windfarm-weather",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"$aws/things/WindTurbine1/shadow/update/documents",
+            "vt":"str"
+         }
+      ],
+      "checkall":"false",
+      "repair":false,
+      "outputs":5,
+      "x":232,
+      "y":452,
+      "wires":[
+         [
+            "f650583c.ceab4"
+         ],
+         [
+            "f650583c.ceab4"
+         ],
+         [
+            "f650583c.ceab4"
+         ],
+         [
+            "bdc5b036.68a58"
+         ],
+         [
+            "1a41721f.d1ea5e"
+         ]
+      ]
+   },
+   {
+      "id":"b2a9954a.d5be58",
+      "type":"debug",
+      "z":"39896eda.6f598a",
+      "name":"",
+      "active":false,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":516,
+      "y":708,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"d2e176a0.020358",
+      "type":"ui_slider",
+      "z":"39896eda.6f598a",
+      "name":"data_interval",
+      "label":"Data Delay",
+      "group":"74167fdf.dd77b",
+      "order":5,
+      "width":0,
+      "height":0,
+      "passthru":false,
+      "outs":"end",
+      "topic":"$aws/things/WindTurbine1/shadow/update",
+      "min":"1",
+      "max":"20",
+      "step":1,
+      "x":734,
+      "y":826,
+      "wires":[
+         [
+            "84211109.ca558"
+         ]
+      ]
+   },
+   {
+      "id":"1c6ac880.d117f8",
+      "type":"template",
+      "z":"39896eda.6f598a",
+      "name":"BrakeOn",
+      "field":"payload",
+      "fieldType":"msg",
+      "format":"json",
+      "syntax":"mustache",
+      "template":"{\n    \"state\": {\n        \"desired\": {\n            \"brake_status\": \"{{payload}}\"\n        }\n    }\n}",
+      "output":"str",
+      "x":919,
+      "y":882,
+      "wires":[
+         [
+            "5a3d197d.ccb918"
+         ]
+      ]
+   },
+   {
+      "id":"84211109.ca558",
+      "type":"template",
+      "z":"39896eda.6f598a",
+      "name":"DataInterval",
+      "field":"payload",
+      "fieldType":"msg",
+      "format":"json",
+      "syntax":"mustache",
+      "template":"{\n    \"state\": {\n        \"desired\": {\n            \"data_fast_interval\": \"{{payload}}\"\n        }\n    }\n}",
+      "output":"str",
+      "x":928,
+      "y":826,
+      "wires":[
+         [
+            "5a3d197d.ccb918"
+         ]
+      ]
+   },
+   {
+      "id":"ee182bb9.87efc8",
+      "type":"ui_dropdown",
+      "z":"39896eda.6f598a",
+      "name":"",
+      "label":"Data Path",
+      "place":"Select option",
+      "group":"74167fdf.dd77b",
+      "order":4,
+      "width":0,
+      "height":0,
+      "passthru":false,
+      "options":[
+         {
+            "label":"Normal (IoT Core)",
+            "value":"normal",
+            "type":"str"
+         },
+         {
+            "label":"Fast (Kinesis)",
+            "value":"faster",
+            "type":"str"
+         },
+         {
+            "label":"Cheaper (Basic Ingest)",
+            "value":"cheaper",
+            "type":"str"
+         }
+      ],
+      "payload":"",
+      "topic":"$aws/things/WindTurbine1/shadow/update",
+      "x":729,
+      "y":767,
+      "wires":[
+         [
+            "72f2cb0f.e8ee94"
+         ]
+      ]
+   },
+   {
+      "id":"72f2cb0f.e8ee94",
+      "type":"template",
+      "z":"39896eda.6f598a",
+      "name":"DataPath",
+      "field":"payload",
+      "fieldType":"msg",
+      "format":"json",
+      "syntax":"mustache",
+      "template":"{\n    \"state\": {\n        \"desired\": {\n            \"data_path\": \"{{payload}}\"\n        }\n    }\n}",
+      "output":"str",
+      "x":920,
+      "y":767,
+      "wires":[
+         [
+            "5a3d197d.ccb918"
+         ]
+      ]
+   },
+   {
+      "id":"d860b110.19f4d",
+      "type":"debug",
+      "z":"39896eda.6f598a",
+      "name":"",
+      "active":false,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"false",
+      "x":386,
+      "y":153,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"6635d0f8.8fdae",
+      "type":"ui_switch",
+      "z":"39896eda.6f598a",
+      "name":"brake_status",
+      "label":"Brakes",
+      "group":"74167fdf.dd77b",
+      "order":6,
+      "width":0,
+      "height":0,
+      "passthru":false,
+      "decouple":"false",
+      "topic":"$aws/things/WindTurbine1/shadow/update",
+      "style":"",
+      "onvalue":"ON",
+      "onvalueType":"str",
+      "onicon":"",
+      "oncolor":"",
+      "offvalue":"OFF",
+      "offvalueType":"str",
+      "officon":"",
+      "offcolor":"",
+      "x":739,
+      "y":883,
+      "wires":[
+         [
+            "1c6ac880.d117f8"
+         ]
+      ]
+   },
+   {
+      "id":"b228714c.28bd",
+      "type":"ui_button",
+      "z":"39896eda.6f598a",
+      "name":"",
+      "group":"d74c1f57.de2e8",
+      "order":3,
+      "width":0,
+      "height":0,
+      "passthru":false,
+      "label":"Get Shadow",
+      "color":"",
+      "bgcolor":"",
+      "icon":"",
+      "payload":"",
+      "payloadType":"str",
+      "topic":"$aws/things/WindTurbine1/shadow/get",
+      "x":836,
+      "y":938,
+      "wires":[
+         [
+            "5a3d197d.ccb918"
+         ]
+      ]
+   },
+   {
+      "id":"4abc348a.a1c73c",
+      "type":"mqtt in",
+      "z":"39896eda.6f598a",
+      "name":"Windfarm",
+      "topic":"#",
+      "qos":"0",
+      "broker":"6341a676.8db148",
+      "x":151,
+      "y":273,
+      "wires":[
+         [
+            "d9ac0fe2.654e6",
+            "d860b110.19f4d"
+         ]
+      ]
+   },
+   {
+      "id":"5a3d197d.ccb918",
+      "type":"mqtt out",
+      "z":"39896eda.6f598a",
+      "name":"Shadow",
+      "topic":"",
+      "qos":"0",
+      "retain":"false",
+      "broker":"6341a676.8db148",
+      "x":1176,
+      "y":857,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"65ef7c0.c076384",
+      "type":"json",
+      "z":"39896eda.6f598a",
+      "name":"ShadowDoc",
+      "property":"payload",
+      "action":"obj",
+      "pretty":true,
+      "x":276,
+      "y":822,
+      "wires":[
+         [
+            "a5edc681.24b2b8",
+            "5fffc3e0.17f56c",
+            "96109cfb.78238",
+            "b2a9954a.d5be58"
+         ]
+      ]
+   },
+   {
+      "id":"a5edc681.24b2b8",
+      "type":"change",
+      "z":"39896eda.6f598a",
+      "name":"data_path",
+      "rules":[
+         {
+            "t":"move",
+            "p":"payload.current.state.reported.data_path",
+            "pt":"msg",
+            "to":"payload",
+            "tot":"msg"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":506,
+      "y":767,
+      "wires":[
+         [
+            "ee182bb9.87efc8"
+         ]
+      ]
+   },
+   {
+      "id":"5fffc3e0.17f56c",
+      "type":"change",
+      "z":"39896eda.6f598a",
+      "name":"data_interval",
+      "rules":[
+         {
+            "t":"move",
+            "p":"payload.current.state.reported.data_fast_interval",
+            "pt":"msg",
+            "to":"payload",
+            "tot":"msg"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":515,
+      "y":822,
+      "wires":[
+         [
+            "d2e176a0.020358"
+         ]
+      ]
+   },
+   {
+      "id":"96109cfb.78238",
+      "type":"change",
+      "z":"39896eda.6f598a",
+      "name":"data_path",
+      "rules":[
+         {
+            "t":"move",
+            "p":"payload.current.state.reported.brake_status",
+            "pt":"msg",
+            "to":"payload",
+            "tot":"msg"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":507,
+      "y":882,
+      "wires":[
+         [
+            "6635d0f8.8fdae"
+         ]
+      ]
+   },
+   {
+      "id":"1a41721f.d1ea5e",
+      "type":"delay",
+      "z":"39896eda.6f598a",
+      "name":"",
+      "pauseType":"delay",
+      "timeout":"5",
+      "timeoutUnits":"seconds",
+      "rate":"1",
+      "nbRateUnits":"1",
+      "rateUnits":"second",
+      "randomFirst":"1",
+      "randomLast":"5",
+      "randomUnits":"seconds",
+      "drop":false,
+      "x":276,
+      "y":688,
+      "wires":[
+         [
+            "65ef7c0.c076384"
+         ]
+      ]
+   },
+   {
+      "id":"bf89235e.0b5778",
+      "type":"function",
+      "z":"39896eda.6f598a",
+      "name":"VibeAvg Series",
+      "func":"msg2 = {};\nmsg2.topic = 'turbine_vibe_avg';\nmsg2.payload = msg.payload.turbine_vibe_avg;\nmsg2.timestamp = msg.payload.timestamp;\nreturn msg2;",
+      "outputs":1,
+      "noerr":0,
+      "x":757,
+      "y":487,
+      "wires":[
+         [
+            "3c558e10.a3d5ea"
+         ]
+      ]
+   },
+   {
+      "id":"2f75c852.0364a",
+      "type":"ui_gauge",
+      "z":"39896eda.6f598a",
+      "name":"Avg Vibration",
+      "group":"74167fdf.dd77b",
+      "order":10,
+      "width":0,
+      "height":0,
+      "gtype":"gage",
+      "title":"Avg Vibration",
+      "label":"",
+      "format":"{{payload.turbine_vibe_avg | number:0}}",
+      "min":0,
+      "max":"300",
+      "colors":[
+         "#00b500",
+         "#e6e600",
+         "#ca3838"
+      ],
+      "seg1":"100",
+      "seg2":"200",
+      "x":761,
+      "y":24,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"74167fdf.dd77b",
+      "type":"ui_group",
+      "z":"",
+      "name":"Current",
+      "tab":"fb70bbb4.3fb48",
+      "disp":true,
+      "width":"6",
+      "collapse":false
+   },
+   {
+      "id":"6f98a133.d4c3d8",
+      "type":"ui_group",
+      "z":"",
+      "name":"Trends",
+      "tab":"fb70bbb4.3fb48",
+      "disp":true,
+      "width":"10",
+      "collapse":false
+   },
+   {
+      "id":"87605d23.0f28e8",
+      "type":"ui_group",
+      "z":"",
+      "name":"Detailed",
+      "tab":"fb70bbb4.3fb48",
+      "order":3,
+      "disp":true,
+      "width":"6",
+      "collapse":false
+   },
+   {
+      "id":"d74c1f57.de2e8",
+      "type":"ui_group",
+      "z":"",
+      "name":"Command & Control",
+      "tab":"a7009d00.078c6",
+      "order":1,
+      "disp":true,
+      "width":"6",
+      "collapse":false
+   },
+   {
+      "id":"6341a676.8db148",
+      "type":"mqtt-broker",
+      "z":"",
+      "name":"",
+      "broker":"192.168.1.147",
+      "port":"8883",
+      "tls":"4e6146e8.08f5b8",
+      "clientid":"Windfarm1NodeRed",
+      "usetls":true,
+      "compatmode":true,
+      "keepalive":"60",
+      "cleansession":true,
+      "birthTopic":"",
+      "birthQos":"0",
+      "birthPayload":"",
+      "closeTopic":"",
+      "closeQos":"0",
+      "closePayload":"",
+      "willTopic":"",
+      "willQos":"0",
+      "willPayload":""
+   },
+   {
+      "id":"fb70bbb4.3fb48",
+      "type":"ui_tab",
+      "z":"",
+      "name":"Status",
+      "icon":"dashboard",
+      "order":1
+   },
+   {
+      "id":"a7009d00.078c6",
+      "type":"ui_tab",
+      "z":"",
+      "name":"Control",
+      "icon":"dashboard",
+      "order":2
+   },
+   {
+      "id":"4e6146e8.08f5b8",
+      "type":"tls-config",
+      "z":"",
+      "name":"",
+      "cert":"/home/pi/node-red-device/Windfarm1NodeRed.cert.pem",
+      "key":"/home/pi/node-red-device/Windfarm1NodeRed.private.key",
+      "ca":"/home/pi/node-red-device/root-CA.crt",
+      "certname":"",
+      "keyname":"",
+      "caname":"",
+      "servername":"192.168.1.163",
+      "verifyservercert":false
+   }
 ]
