@@ -3,10 +3,7 @@ import json
 
 client = boto3.client('iot-data')
 
-myClientID = "WindTurbine1"
-
 def lambda_handler(event, context):
-    # TODO implement
 
     shadow_payload = {
 	            "state": {
@@ -15,6 +12,11 @@ def lambda_handler(event, context):
 	                }
 	            }
         }
-    client.update_thing_shadow(thingName=myClientID, payload=json.dumps(shadow_payload).encode() )
+
+    client.update_thing_shadow(
+        thingName=event['thingName'],
+        payload=json.dumps(shadow_payload).encode()
+        )
 
     return 'Brake reset'
+    

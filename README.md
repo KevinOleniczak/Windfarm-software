@@ -8,7 +8,7 @@ This demo windfarm contains several model elements that help you experience the 
 
 <img src="windfarm_demo.jpg" width="400" />
 
-### What does it do:
+### What it does:
 See how industrial edge connectivity is accomplished with AWS services. An IoT device read sensor values from a wind turbine continually and publish it to a local IoT Gateway using AWS Greengrass. The gateway receives the data and performs a local inference to evaluate turbine safety based on rotation speed and vibrations. Data is selectively shared with the AWS Cloud where it can be used to build and train machine learning models, stored for analytical purposes and visualized over time on a dashboard.
 
 Noteworthy architectural features:
@@ -40,7 +40,7 @@ Noteworthy architectural features:
 * If using a wired ethernet network include a switch, cables and ethenet adapter for the RPI Zero W
 * AWS Account with permissions to configure services as noted below
 
-### How does it work:
+### How it works:
 The Turbine connects using MQTT to a Greengrass gateway that relays data to the AWS IoT Core. The IoT Core forwards that data to several services for caching of latest metrics and historical trends.
 
 High Level architecture

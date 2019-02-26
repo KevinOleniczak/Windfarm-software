@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "windfarm",
+            "invocationName": "windfarm demo",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
@@ -17,7 +17,15 @@
                 },
                 {
                     "name": "Status",
-                    "slots": [],
+                    "slots": [
+                        {
+                            "name": "windfarmNumber",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "{windfarmNumber}"
+                            ]
+                        }
+                    ],
                     "samples": [
                         "What is the windfarm status",
                         "Status",
@@ -45,6 +53,10 @@
                         "what is the status of turbine {turbineNumber}",
                         "{action} turbine {turbineNumber}"
                     ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
                 }
             ],
             "types": [
@@ -105,8 +117,25 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "Status",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "windfarmNumber",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.153939734368.950943103917"
+                            }
+                        }
+                    ]
                 }
-            ]
+            ],
+            "delegationStrategy": "SKILL_RESPONSE"
         },
         "prompts": [
             {
@@ -124,6 +153,15 @@
                     {
                         "type": "PlainText",
                         "value": "Which of these action do you want to take. Status, apply brake or reset brake."
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.153939734368.950943103917",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which windfarm number"
                     }
                 ]
             }

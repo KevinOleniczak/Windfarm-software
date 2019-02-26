@@ -84,66 +84,81 @@ def handle_session_end_request():
 def create_favorite_color_attributes(favorite_color):
     return {"favoriteColor": favorite_color}
 
-def get_windfarm_status(intent, session):
+def get_windfarm_status(intent, session, dialog_state):
     card_title = "Windfarm Status"
     session_attributes = {}
     reprompt_text = None
 
-    inputMsg = {
-      "duration_minutes": 5000,
-      "windfarmId": "WindfarmGroup_Core"
-    }
+    if dialog_state in ("STARTED", "IN_PROGRESS"):
+        return continue_dialog()
 
-    stmName = str(uuid.uuid4())
-    client = boto3.client('stepfunctions', region_name='us-west-2')
-    response = client.start_execution(
-        stateMachineArn = 'arn:aws:states:us-west-2:178550668674:stateMachine:WindfarmGetStatus',
-        name = stmName,
-        input = json.dumps(inputMsg)
-    )
+    elif dialog_state == "COMPLETED":
 
-    qryState = "TBD"
-    while qryState != "SUCCEEDED":
-        if qryState == "FAILED":
-            break
-        responseDesc = client.describe_execution(executionArn=response['executionArn'])
-        qryState = responseDesc['status']
-        print (qryState)
-        sleep (1)
+        if 'windfarmNumber' in intent['slots']:
+            print ("slot info >> " + json.dumps(intent['slots']))
+            myWindfarmNumber = intent['slots']['windfarmNumber']['value']
 
-    if qryState == "SUCCEEDED":
-        responseDesc = json.loads(responseDesc['output'])
-        windfarmAvgWxWindSpeed = responseDesc[0]['avg_wind_speed']
-        windfarmTurbineConnCnt = responseDesc[1]['turbine_connected_count']
-        windfarmBrakeThreshold = responseDesc[2]['brake_threshold']
-        windfarmWxWindSpeed = responseDesc[3]['latest_wind_speed']
+            inputMsg = {
+              "duration_minutes": 5000,
+              "windfarmId": "WindfarmGroup" + myWindfarmNumber + "_Core"
+            }
+
+            stmName = str(uuid.uuid4())
+            client = boto3.client('stepfunctions', region_name='us-west-2')
+            response = client.start_execution(
+                stateMachineArn = 'arn:aws:states:us-west-2:178550668674:stateMachine:WindfarmGetStatus',
+                name = stmName,
+                input = json.dumps(inputMsg)
+            )
+
+            qryState = "TBD"
+            while qryState != "SUCCEEDED":
+                if qryState == "FAILED":
+                    break
+                responseDesc = client.describe_execution(executionArn=response['executionArn'])
+                qryState = responseDesc['status']
+                print (qryState)
+                sleep (1)
+
+            if qryState == "SUCCEEDED":
+                responseDesc = json.loads(responseDesc['output'])
+                windfarmAvgWxWindSpeed = responseDesc[0]['avg_wind_speed']
+                windfarmTurbineConnCnt = responseDesc[1]['turbine_connected_count']
+                windfarmBrakeThreshold = responseDesc[2]['brake_threshold']
+                windfarmWxWindSpeed = responseDesc[3]['latest_wind_speed']
+            else:
+                windfarmAvgWxWindSpeed = 0
+                windfarmTurbineConnCnt = 'unknown'
+                windfarmBrakeThreshold = 'unknown'
+                windfarmWxWindSpeed = 0
+
+            if windfarmTurbineConnCnt > 1:
+                turbine_word = "turbines"
+            else:
+                turbine_word = "turbine"
+
+            speech_output = "Windfarm " + str(myWindfarmNumber) + " is online with " + \
+                            str(windfarmTurbineConnCnt) + \
+                            " active " + turbine_word + ". The current wind speed is " + \
+                            str(windfarmWxWindSpeed) + \
+                            " mph with an average of " + \
+                            str(windfarmAvgWxWindSpeed) + \
+                            " miles per hour and the safety brake threshold is set to " + \
+                            str(windfarmBrakeThreshold) + " rpm. Is there anything else I can help you with?"
+
+            should_end_session = False
+
+        else:
+            speech_output = "I'm not sure which windfarm your referring to. " \
+                            "Please try again."
+            reprompt_text = "I'm not sure which windfarm your referring to. " \
+                            "You can tell me the windfarm number by saying, " \
+                            "the number of the windfarm you want status for."
+        return build_response(session_attributes, build_speechlet_response(
+            card_title, speech_output, reprompt_text, should_end_session))
+
     else:
-        windfarmAvgWxWindSpeed = 0
-        windfarmTurbineConnCnt = 'unknown'
-        windfarmBrakeThreshold = 'unknown'
-        windfarmWxWindSpeed = 0
-
-    if windfarmTurbineConnCnt > 1:
-        turbine_word = "turbines"
-    else:
-        turbine_word = "turbine"
-
-    speech_output = "The windfarm is online with " + \
-                    str(windfarmTurbineConnCnt) + \
-                    " active " + turbine_word + ". The current wind speed is " + \
-                    str(windfarmWxWindSpeed) + \
-                    " mph with an average of " + \
-                    str(windfarmAvgWxWindSpeed) + \
-                    " miles per hour and the safety brake threshold is set to " + \
-                    str(windfarmBrakeThreshold) + " rpm. Is there anything else I can help you with?"
-
-    should_end_session = False
-
-    # Setting reprompt_text to None signifies that we do not want to reprompt
-    # the user. If the user does not respond or says something that is not
-    # understood, the session will end.
-    return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+        raise ValueError("Unknown dialog state")
 
 
 def get_turbine_status(intent, session, dialog_state):
@@ -247,9 +262,12 @@ def set_turbine_reset(intent, session, dialog_state):
         if 'turbineNumber' in intent['slots']:
             #print ("slot info >> " + json.dumps(intent['slots']))
             myturbineNumber = intent['slots']['turbineNumber']['value']
+            payload = {'thingName': 'WindTurbine' + str(myturbineNumber) }
+            print(payload)
             #set desired shadow state for the requested turbine
             invoke_response = lambda_client.invoke(FunctionName="WindfarmResetTurbine",
-                                               InvocationType='RequestResponse'
+                                               InvocationType='RequestResponse',
+                                               Payload=bytes(json.dumps(payload))
                                                )
             #arn:aws:lambda:us-west-2:178550668674:function:WindfarmResetTurbine
             #should_end_session = True
@@ -288,9 +306,12 @@ def set_turbine_brake(intent, session, dialog_state):
             #print ("slot info >> " + json.dumps(intent['slots']))
             myturbineNumber = intent['slots']['turbineNumber']['value']
             print ("set brake >> myturbineNumber " + str(myturbineNumber))
+            payload = {'thingName': 'WindTurbine' + str(myturbineNumber) }
+            print(payload)
             #set desired shadow state for the requested turbine
             invoke_response = lambda_client.invoke(FunctionName="WindfarmSetTurbineBrake",
-                                               InvocationType='RequestResponse'
+                                               InvocationType='RequestResponse',
+                                               Payload=bytes(json.dumps(payload))
                                                )
             #arn:aws:lambda:us-west-2:178550668674:function:WindfarmSetTurbineBrake
             should_end_session = True
@@ -374,7 +395,7 @@ def on_intent(intent_request, session):
 
     # Dispatch to your skill's intent handlers
     if intent_name == "Status":
-        return get_windfarm_status(intent, session)
+        return get_windfarm_status(intent, session, dialog_state)
     elif intent_name == "Turbines":
         return do_turbine(intent, session, dialog_state)
     elif intent_name == "AMAZON.HelpIntent":
